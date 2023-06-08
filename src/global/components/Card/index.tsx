@@ -1,3 +1,4 @@
+import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useGlobalState } from "../../../contexts/globalState";
 import { Product } from "../../../ts/models/product.model";
 
@@ -14,10 +15,11 @@ export const Card = ({
   images,
   description,
 }: CardProps) => {
+  const dataState = useGlobalState();
   const img: string = images ? images[0] : " ";
   const categoryName: string = category ? category.name : " ";
 
-  const dataState = useGlobalState();
+  const inCart = dataState?.state.productsInCart.some((p) => p.id === id);
 
   const addProduct = () => {
     const productsInCart = dataState?.state.productsInCart;
@@ -58,11 +60,13 @@ export const Card = ({
         <img className="w-full h-full object-cover" src={img} alt={title} />
         <div
           id="addProduct"
-          className="absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full bg-white text-center w-6 h-6 p-2"
+          className="absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full bg-white text-center w-7 h-7 p-2"
         >
-          <span id="addProduct" className="pb-1">
-            +
-          </span>
+          {inCart ? (
+            <CheckIcon className="w-7 h-7" id="addProduct" />
+          ) : (
+            <PlusIcon className="w-7 h-7" id="addProduct" />
+          )}
         </div>
       </figure>
       <div className="flex justify-between items-center px-3 pb-3 h-1/5">
