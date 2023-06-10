@@ -1,13 +1,13 @@
-import { createContext, useContext, useReducer } from "react";
 import {
-  GlobalStateProps,
-  Initalstate,
-  MyAction,
-  ReducerType,
-} from "./ts/models/globalState.model";
-import { ProductInCart, ProductOnDisplay } from "./ts/dtos/globalState.dto";
+  ProductInCart,
+  ProductOnDisplay,
+} from "../ts/dtos/shoppingCartState.dto";
+import {
+  InitalSCstate,
+  MySCAction,
+} from "../ts/models/shoppingCartState.model";
 
-const initialState: Initalstate = {
+export const initialSCState: InitalSCstate = {
   loading: false,
   error: false,
   detail: false,
@@ -21,7 +21,7 @@ const initialState: Initalstate = {
   productsInCart: [],
 };
 
-const reducer = (state: Initalstate, action: MyAction) => {
+export const reducerSC = (state: InitalSCstate, action: MySCAction) => {
   switch (action.type) {
     case "STAR_REQUEST":
       return {
@@ -114,19 +114,3 @@ const reducer = (state: Initalstate, action: MyAction) => {
       };
   }
 };
-
-const GlobalState = createContext<ReducerType | null>(null);
-
-export const GlobalStateProvider = ({ children }: GlobalStateProps) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const dataState = { state, dispatch };
-  return (
-    <GlobalState.Provider value={dataState}>{children}</GlobalState.Provider>
-  );
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function useGlobalState() {
-  const dataState = useContext(GlobalState);
-  if (dataState) return dataState;
-}

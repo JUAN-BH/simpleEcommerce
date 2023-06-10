@@ -8,7 +8,7 @@ import { SignIn } from "./SignIn";
 import { LogOut } from "./LogOut";
 import { Header } from "../global/components/Header";
 import { Layout } from "../global/containers/Layout";
-import { GlobalStateProvider } from "../contexts/globalState";
+import { ShoppingCartStateProvider } from "../contexts/shoppingCartState";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -48,12 +48,12 @@ function App(): JSX.Element {
   return (
     <>
       <BrowserRouter>
-        <GlobalStateProvider>
+        <ShoppingCartStateProvider>
           <Header />
           <Layout>
             <AppRoutes />
           </Layout>
-        </GlobalStateProvider>
+        </ShoppingCartStateProvider>
       </BrowserRouter>
     </>
   );

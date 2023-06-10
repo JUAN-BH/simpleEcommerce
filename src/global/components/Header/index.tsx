@@ -1,8 +1,8 @@
-import { useGlobalState } from "../../../contexts/globalState";
+import { useShoppingCartState } from "../../../contexts/shoppingCartState";
 import { NavItem } from "../NavItem";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 export const Header = () => {
-  const dataState = useGlobalState();
+  const dataState = useShoppingCartState();
   const itemsCart = dataState?.state.productsInCart;
   const handleOpenCart = () => {
     dataState?.dispatch({ type: "OPEN_CART" });

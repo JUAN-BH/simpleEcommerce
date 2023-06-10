@@ -1,5 +1,5 @@
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useGlobalState } from "../../../contexts/globalState";
+import { useShoppingCartState } from "../../../contexts/shoppingCartState";
 import { Product } from "../../../ts/models/product.model";
 
 type CardProps = Pick<
@@ -15,7 +15,7 @@ export const Card = ({
   images,
   description,
 }: CardProps) => {
-  const dataState = useGlobalState();
+  const dataState = useShoppingCartState();
   const img: string = images ? images[0] : " ";
   const categoryName: string = category ? category.name : " ";
 

@@ -1,7 +1,7 @@
-import { useGlobalState } from "../../../../contexts/globalState";
+import { useShoppingCartState } from "../../../../contexts/shoppingCartState";
 
 export const ProductDetail = () => {
-  const globalState = useGlobalState();
+  const globalState = useShoppingCartState();
   const handleOnCloseDetail = () => {
     globalState?.dispatch({ type: "CLOSE_DETAIL" });
   };

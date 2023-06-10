@@ -1,9 +1,9 @@
-import { useGlobalState } from "../../../contexts/globalState";
-import { ProductInCart } from "../../../contexts/ts/dtos/globalState.dto";
+import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { ProductInCart } from "../../../ts/dtos/shoppingCartState.dto";
 import { CartItem } from "../../components/CartItem";
 
 export const ShoppingCart = () => {
-  const globalState = useGlobalState();
+  const globalState = useShoppingCartState();
   const total = globalState?.state.productsInCart?.reduce<number>(
     (a: number, b: ProductInCart): number => {
       return a + b.price;

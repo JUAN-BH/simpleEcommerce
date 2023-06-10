@@ -1,4 +1,4 @@
-import { Product } from "../../../ts/models/product.model";
+import { Product } from "../models/product.model";
 
 export type ProductOnDisplay = Pick<
   Product,

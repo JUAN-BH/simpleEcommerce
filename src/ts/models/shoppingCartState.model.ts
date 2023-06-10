@@ -1,15 +1,15 @@
-import { ProductInCart, ProductOnDisplay } from "../dtos/globalState.dto";
+import { ProductInCart, ProductOnDisplay } from "../dtos/shoppingCartState.dto";
 
-export interface GlobalStateProps {
+export interface ContextStateProps {
   children: React.ReactNode;
 }
 
-export interface ReducerType {
-  state: Initalstate;
-  dispatch: React.Dispatch<MyAction>;
+export interface ReducerSCType {
+  state: InitalSCstate;
+  dispatch: React.Dispatch<MySCAction>;
 }
 
-export interface Initalstate {
+export interface InitalSCstate {
   loading: boolean;
   error: boolean;
   detail: boolean;
@@ -18,7 +18,7 @@ export interface Initalstate {
   productsInCart: ProductInCart[];
 }
 
-export interface MyAction {
+export interface MySCAction {
   type:
     | "STAR_REQUEST"
     | "REQUEST_SUCCESS"

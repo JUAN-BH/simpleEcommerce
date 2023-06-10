@@ -1,8 +1,11 @@
-import { useGlobalState } from "../../../contexts/globalState";
-import { ProductInCart } from "../../../contexts/ts/dtos/globalState.dto";
+import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { ProductInCart } from "../../../ts/dtos/shoppingCartState.dto";
 import { QuantitySelect } from "../QuantitySelect";
 
-type PropTypes = ProductInCart;
+type PropTypes = Pick<
+  ProductInCart,
+  "id" | "images" | "price" | "qty" | "title"
+>;
 
 export const CartItem = ({
   id,
@@ -11,7 +14,7 @@ export const CartItem = ({
   price,
   qty,
 }: PropTypes): JSX.Element => {
-  const globalState = useGlobalState();
+  const globalState = useShoppingCartState();
 
   const hanldeRemoveItem = () => {
     const newItems = globalState?.state.productsInCart.filter(

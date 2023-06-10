@@ -1,4 +1,4 @@
-import { useGlobalState } from "../../contexts/globalState";
+import { useShoppingCartState } from "../../contexts/shoppingCartState";
 import { Card } from "../../global/components/Card";
 import { FilterProducts } from "../../global/components/FilterProducts";
 import useProducts from "../../hooks/usProducts";
@@ -6,7 +6,7 @@ import { ProductDetail } from "./Components/ProductDetail";
 
 export const Home = (): JSX.Element => {
   const { products, filterProducts } = useProducts();
-  const globalState = useGlobalState();
+  const globalState = useShoppingCartState();
   return (
     <>
       <FilterProducts filterFunc={filterProducts} />

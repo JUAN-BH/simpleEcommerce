@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useGlobalState } from "../../../contexts/globalState";
+import { useShoppingCartState } from "../../../contexts/shoppingCartState";
 
 interface SelectProps {
   id: number;
@@ -12,7 +12,7 @@ interface Option {
 }
 
 export const QuantitySelect = ({ id, qty }: SelectProps) => {
-  const globalState = useGlobalState();
+  const globalState = useShoppingCartState();
   const [selectedOption, setSelectedOption] = useState<string>(qty.toString());
 
   useEffect(() => {
@@ -33,35 +33,16 @@ export const QuantitySelect = ({ id, qty }: SelectProps) => {
         (product) => product.id === id
       );
 
-      if (productsInCart[pIndex].qty < parseInt(e.target.value)) {
-        console.log("oPrice", productsInCart[pIndex].oPrice);
-        console.log("qtySelect", parseInt(e.target.value));
-        console.log(productsInCart[pIndex].oPrice * parseInt(e.target.value));
+      productsInCart[pIndex] = {
+        ...productsInCart[pIndex],
+        qty: parseInt(e.target.value),
+        price: productsInCart[pIndex].oPrice * parseInt(e.target.value),
+      };
 
-        productsInCart[pIndex] = {
-          ...productsInCart[pIndex],
-          qty: parseInt(e.target.value),
-          price: productsInCart[pIndex].oPrice * parseInt(e.target.value),
-        };
-
-        console.log("priceDisplay", productsInCart[pIndex].price);
-
-        globalState?.dispatch({
-          type: "ADD_PRODUCT_QTY",
-          payload: productsInCart,
-        });
-      } else {
-        productsInCart[pIndex] = {
-          ...productsInCart[pIndex],
-          qty: parseInt(e.target.value),
-          price: productsInCart[pIndex].oPrice / parseInt(e.target.value),
-        };
-
-        globalState?.dispatch({
-          type: "ADD_PRODUCT_QTY",
-          payload: productsInCart,
-        });
-      }
+      globalState?.dispatch({
+        type: "ADD_PRODUCT_QTY",
+        payload: productsInCart,
+      });
     }
   };
 
