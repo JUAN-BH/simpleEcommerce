@@ -10,8 +10,6 @@ export interface ReducerSCType {
 }
 
 export interface InitalSCstate {
-  loading: boolean;
-  error: boolean;
   detail: boolean;
   productOnDetail: ProductOnDisplay;
   cart: boolean;
@@ -20,9 +18,6 @@ export interface InitalSCstate {
 
 export interface MySCAction {
   type:
-    | "STAR_REQUEST"
-    | "REQUEST_SUCCESS"
-    | "REQUEST_ERROR"
     | "PRODUCT_TO_DISPLAY"
     | "CLOSE_DETAIL"
     | "ADD_PRODUCT_TO_CART"

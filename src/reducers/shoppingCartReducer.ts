@@ -8,8 +8,6 @@ import {
 } from "../ts/models/shoppingCartState.model";
 
 export const initialSCState: InitalSCstate = {
-  loading: false,
-  error: false,
   detail: false,
   productOnDetail: {
     title: "",
@@ -23,22 +21,6 @@ export const initialSCState: InitalSCstate = {
 
 export const reducerSC = (state: InitalSCstate, action: MySCAction) => {
   switch (action.type) {
-    case "STAR_REQUEST":
-      return {
-        ...state,
-        loading: true,
-      };
-    case "REQUEST_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-      };
-    case "REQUEST_ERROR":
-      return {
-        ...state,
-        loading: false,
-        error: true,
-      };
     case "CLOSE_DETAIL":
       return {
         ...state,

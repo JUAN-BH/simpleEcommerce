@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
 
 interface SelectProps {
   id: number;
@@ -12,7 +12,7 @@ interface Option {
 }
 
 export const QuantitySelect = ({ id, qty }: SelectProps) => {
-  const globalState = useShoppingCartState();
+  const SCState = useShoppingCartContext();
   const [selectedOption, setSelectedOption] = useState<string>(qty.toString());
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export const QuantitySelect = ({ id, qty }: SelectProps) => {
   ];
 
   const addQtyProduct = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const productsInCart = globalState?.state.productsInCart;
+    const productsInCart = SCState?.state.productsInCart;
     if (productsInCart) {
       const pIndex: number = productsInCart?.findIndex(
         (product) => product.id === id
@@ -39,7 +39,7 @@ export const QuantitySelect = ({ id, qty }: SelectProps) => {
         price: productsInCart[pIndex].oPrice * parseInt(e.target.value),
       };
 
-      globalState?.dispatch({
+      SCState?.dispatch({
         type: "ADD_PRODUCT_QTY",
         payload: productsInCart,
       });

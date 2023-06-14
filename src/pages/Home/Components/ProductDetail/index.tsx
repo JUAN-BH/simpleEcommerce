@@ -1,9 +1,9 @@
-import { useShoppingCartState } from "../../../../contexts/shoppingCartState";
+import { useShoppingCartContext } from "../../../../contexts/shoppingCartState";
 
 export const ProductDetail = () => {
-  const globalState = useShoppingCartState();
+  const SCState = useShoppingCartContext();
   const handleOnCloseDetail = () => {
-    globalState?.dispatch({ type: "CLOSE_DETAIL" });
+    SCState?.dispatch({ type: "CLOSE_DETAIL" });
   };
 
   return (
@@ -21,18 +21,18 @@ export const ProductDetail = () => {
       <figure className="w-full h-80 rounded-md overflow-hidden my-5">
         <img
           className="w-full h-full object-cover"
-          src={globalState?.state.productOnDetail.images[0]}
-          alt={globalState?.state.productOnDetail.title}
+          src={SCState?.state.productOnDetail.images[0]}
+          alt={SCState?.state.productOnDetail.title}
         />
       </figure>
       <p className="text-xl font-semibold">
-        ${globalState?.state.productOnDetail.price}
+        ${SCState?.state.productOnDetail.price}
       </p>
       <div>
         <p className="text-lg font-semibold">
-          {globalState?.state.productOnDetail.title}
+          {SCState?.state.productOnDetail.title}
         </p>
-        <p>{globalState?.state.productOnDetail.description}</p>
+        <p>{SCState?.state.productOnDetail.description}</p>
       </div>
     </aside>
   );

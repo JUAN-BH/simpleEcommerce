@@ -1,4 +1,4 @@
-import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
 import { ShoppingCart } from "../ShoppingCart";
 
 type PropTypes = {
@@ -6,11 +6,10 @@ type PropTypes = {
 };
 
 export const Layout = ({ children }: PropTypes) => {
-  const globalState = useShoppingCartState();
+  const SCState = useShoppingCartContext();
   return (
-    <div className="flex flex-col mt-24 items-center">
-      {globalState?.state.cart && <ShoppingCart />}
-
+    <div className="flex flex-col mt-24 items-center ">
+      {SCState?.state.cart && <ShoppingCart />}
       {children}
     </div>
   );

@@ -1,5 +1,5 @@
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
 import { Product } from "../../../ts/models/product.model";
 
 type CardProps = Pick<
@@ -15,18 +15,18 @@ export const Card = ({
   images,
   description,
 }: CardProps) => {
-  const dataState = useShoppingCartState();
+  const SCState = useShoppingCartContext();
   const img: string = images ? images[0] : " ";
   const categoryName: string = category ? category.name : " ";
 
-  const inCart = dataState?.state.productsInCart.some((p) => p.id === id);
+  const inCart = SCState?.state.productsInCart.some((p) => p.id === id);
 
   const addProduct = () => {
-    const productsInCart = dataState?.state.productsInCart;
+    const productsInCart = SCState?.state.productsInCart;
     if (productsInCart) {
       const sameProduct = productsInCart.some((product) => product.id === id);
       if (!sameProduct) {
-        dataState?.dispatch({
+        SCState?.dispatch({
           type: "ADD_PRODUCT_TO_CART",
           payload: { id, images, title, price, oPrice: price, qty: 1 },
         });
@@ -40,7 +40,7 @@ export const Card = ({
     if (element.id == "addProduct") {
       addProduct();
     } else {
-      dataState?.dispatch({
+      SCState?.dispatch({
         type: "PRODUCT_TO_DISPLAY",
         payload: { title, description, price, images },
       });
@@ -60,7 +60,9 @@ export const Card = ({
         <img className="w-full h-full object-cover" src={img} alt={title} />
         <div
           id="addProduct"
-          className="absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full bg-white text-center w-7 h-7 p-2"
+          className={`absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full  text-center w-7 h-7 p-2 ${
+            inCart ? "bg-green-500" : "bg-white"
+          } `}
         >
           {inCart ? (
             <CheckIcon className="w-7 h-7" id="addProduct" />

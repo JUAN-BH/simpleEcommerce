@@ -1,10 +1,12 @@
-import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { useNavigate } from "react-router-dom";
+import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
 import { ProductInCart } from "../../../ts/dtos/shoppingCartState.dto";
 import { CartItem } from "../../components/CartItem";
 
 export const ShoppingCart = () => {
-  const globalState = useShoppingCartState();
-  const total = globalState?.state.productsInCart?.reduce<number>(
+  const navigate = useNavigate();
+  const SCState = useShoppingCartContext();
+  const total = SCState?.state.productsInCart?.reduce<number>(
     (a: number, b: ProductInCart): number => {
       return a + b.price;
     },
@@ -12,7 +14,7 @@ export const ShoppingCart = () => {
   );
 
   const handleCloseCart = () => {
-    globalState?.dispatch({ type: "CLOSE_CART" });
+    SCState?.dispatch({ type: "CLOSE_CART" });
   };
 
   return (
@@ -29,7 +31,7 @@ export const ShoppingCart = () => {
           </button>
         </article>
 
-        {globalState?.state.productsInCart.map((p) => (
+        {SCState?.state.productsInCart.map((p) => (
           <CartItem
             key={p.id}
             id={p.id}
@@ -47,8 +49,9 @@ export const ShoppingCart = () => {
           <p className="text-xl font-bold">${total}</p>
         </div>
         <button
+          onClick={() => navigate("/order")}
           type="button"
-          className="mt-5 cursor-pointer rounded-md py-3 w-full bg-black text-white"
+          className="mt-5 cursor-pointer rounded-md py-3 w-full bg-green-500 text-white shadow-md"
         >
           Checkout
         </button>

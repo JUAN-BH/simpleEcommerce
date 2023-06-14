@@ -8,7 +8,9 @@ import { SignIn } from "./SignIn";
 import { LogOut } from "./LogOut";
 import { Header } from "../global/components/Header";
 import { Layout } from "../global/containers/Layout";
-import { ShoppingCartStateProvider } from "../contexts/shoppingCartState";
+import { ShoppingCartContextProvider } from "../contexts/shoppingCartState";
+import { GlobalStateProvider } from "../contexts/globalStateContext";
+import { AuthContextProvider } from "../contexts/auth";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -21,11 +23,11 @@ const AppRoutes = (): React.ReactElement | null => {
       element: <Account />,
     },
     {
-      path: "/Order",
+      path: "/order",
       element: <Order />,
     },
     {
-      path: "/Orders",
+      path: "/orders",
       element: <Orders />,
     },
     {
@@ -48,12 +50,16 @@ function App(): JSX.Element {
   return (
     <>
       <BrowserRouter>
-        <ShoppingCartStateProvider>
-          <Header />
-          <Layout>
-            <AppRoutes />
-          </Layout>
-        </ShoppingCartStateProvider>
+        <GlobalStateProvider>
+          <AuthContextProvider>
+            <ShoppingCartContextProvider>
+              <Header />
+              <Layout>
+                <AppRoutes />
+              </Layout>
+            </ShoppingCartContextProvider>
+          </AuthContextProvider>
+        </GlobalStateProvider>
       </BrowserRouter>
     </>
   );

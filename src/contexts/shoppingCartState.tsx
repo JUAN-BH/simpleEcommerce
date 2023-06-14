@@ -5,20 +5,22 @@ import {
 } from "../ts/models/shoppingCartState.model";
 import { initialSCState, reducerSC } from "../reducers/shoppingCartReducer";
 
-const ShoppingCartState = createContext<ReducerSCType | null>(null);
+const ShoppingCartContext = createContext<ReducerSCType | null>(null);
 
-export const ShoppingCartStateProvider = ({ children }: ContextStateProps) => {
+export const ShoppingCartContextProvider = ({
+  children,
+}: ContextStateProps) => {
   const [state, dispatch] = useReducer(reducerSC, initialSCState);
   const dataState = { state, dispatch };
   return (
-    <ShoppingCartState.Provider value={dataState}>
+    <ShoppingCartContext.Provider value={dataState}>
       {children}
-    </ShoppingCartState.Provider>
+    </ShoppingCartContext.Provider>
   );
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useShoppingCartState() {
-  const dataState = useContext(ShoppingCartState);
+export function useShoppingCartContext() {
+  const dataState = useContext(ShoppingCartContext);
   if (dataState) return dataState;
 }

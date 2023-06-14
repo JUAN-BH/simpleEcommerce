@@ -1,4 +1,5 @@
-import { useShoppingCartState } from "../../../contexts/shoppingCartState";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
 import { ProductInCart } from "../../../ts/dtos/shoppingCartState.dto";
 import { QuantitySelect } from "../QuantitySelect";
 
@@ -14,13 +15,11 @@ export const CartItem = ({
   price,
   qty,
 }: PropTypes): JSX.Element => {
-  const globalState = useShoppingCartState();
+  const SCState = useShoppingCartContext();
 
   const hanldeRemoveItem = () => {
-    const newItems = globalState?.state.productsInCart.filter(
-      (p) => p.id !== id
-    );
-    globalState?.dispatch({ type: "REMOVE_ITEM", payload: newItems });
+    const newItems = SCState?.state.productsInCart.filter((p) => p.id !== id);
+    SCState?.dispatch({ type: "REMOVE_ITEM", payload: newItems });
   };
 
   return (
@@ -46,9 +45,9 @@ export const CartItem = ({
         <button
           onClick={hanldeRemoveItem}
           type="button"
-          className="cursor-pointer rounded-full bg-white border border-black/10 w-8 h-8 shadow-lg"
+          className="cursor-pointer w-6 h-6"
         >
-          <span className="block mb-1">x</span>
+          <TrashIcon />
         </button>
       </div>
     </article>
