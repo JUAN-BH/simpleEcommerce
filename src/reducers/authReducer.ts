@@ -3,11 +3,13 @@ import {
   InitalAuthState,
   User,
   Orders,
+  UserAddress,
 } from "../ts/models/auth.model";
 
 export const initalAuthState: InitalAuthState = {
   userInfo: {},
   userOrthers: [],
+  userAddresses: [],
 };
 
 export function authReducer(state: InitalAuthState, action: AuthAction) {
@@ -20,15 +22,20 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
             ...state,
             userInfo: payload.userInfo,
             userOrthers: [],
+            userAddresses: [],
           }
         : state;
 
     case "LOGIN":
-      return payload && payload.userInfo && payload.userOrthers
+      return payload &&
+        payload.userInfo &&
+        payload.userOrthers &&
+        payload.userAddresses
         ? {
             ...state,
             userInfo: payload.userInfo,
             userOrthers: payload.userOrthers,
+            userAddresses: payload.userAddresses,
           }
         : state;
 
@@ -37,6 +44,7 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
         ...state,
         userInfo: {} as User,
         userOrthers: [] as Orders[],
+        userAddresses: [] as UserAddress[],
       };
 
     case "ADD_OTHER":
@@ -44,6 +52,14 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
         ? {
             ...state,
             userOrthers: [...state.userOrthers, payload.order],
+          }
+        : state;
+
+    case "ADD_ADDRESS":
+      return payload && payload.userAddress
+        ? {
+            ...state,
+            userAddresses: [...state.userAddresses, payload.userAddress],
           }
         : state;
 

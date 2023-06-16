@@ -1,9 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 export const SignIn = (): JSX.Element => {
+  const navigate = useNavigate();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   return (
     <>
-      <article className="py-4 px-7 border border-gray-400 rounded-md w-1/5">
+      <article className="py-4 px-7 border border-gray-400/40 shadow-sm rounded-md w-1/5">
         <h2 className="text-3xl font-semibold">Sign In</h2>
-        <form action="" className="flex flex-col  gap-6 mt-6">
+        <form onSubmit={handleSubmit} className="flex flex-col  gap-6 mt-6">
           <label htmlFor="">
             <p className="font-semibold">Email</p>
             <input
@@ -35,6 +41,9 @@ export const SignIn = (): JSX.Element => {
           <span className="block border border-b-gray-400 w-1/3"></span>
         </div>
         <button
+          onClick={() => {
+            navigate("/register");
+          }}
           type="button"
           className="mt-4 w-full p-2 bg-gray-300 rounded-md mx-auto block shadow-sm hover:bg-gray-200  transition-all"
         >

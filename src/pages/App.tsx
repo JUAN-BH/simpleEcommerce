@@ -10,7 +10,8 @@ import { Header } from "../global/components/Header";
 import { Layout } from "../global/containers/Layout";
 import { ShoppingCartContextProvider } from "../contexts/shoppingCartState";
 import { GlobalStateProvider } from "../contexts/globalStateContext";
-import { AuthContextProvider } from "../contexts/auth";
+import { AuthContextProvider, PrivateRoute } from "../contexts/auth";
+import { Register } from "./Register";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -19,24 +20,60 @@ const AppRoutes = (): React.ReactElement | null => {
       element: <Home />,
     },
     {
-      path: "/account",
-      element: <Account />,
+      path: "/account/:userName",
+      element: (
+        // <PrivateRoute>
+        <Account />
+        // </PrivateRoute>
+      ),
     },
     {
-      path: "/order",
-      element: <Order />,
+      path: "/order/:orderId",
+      element: (
+        <PrivateRoute>
+          <Order />
+        </PrivateRoute>
+      ),
     },
     {
       path: "/orders",
-      element: <Orders />,
+      element: (
+        <PrivateRoute>
+          <Orders />
+        </PrivateRoute>
+      ),
     },
     {
       path: "/signIn",
       element: <SignIn />,
     },
     {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/checkOut/information",
+      element: (
+        <PrivateRoute>
+          <Account />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/checkOut/payment",
+      element: (
+        <PrivateRoute>
+          <Account />
+        </PrivateRoute>
+      ),
+    },
+    {
       path: "/logOut",
-      element: <LogOut />,
+      element: (
+        <PrivateRoute>
+          <LogOut />
+        </PrivateRoute>
+      ),
     },
     {
       path: "*",

@@ -6,16 +6,21 @@ import {
   useState,
 } from "react";
 import { authReducer, initalAuthState } from "../reducers/authReducer";
-import { ReducerAuthType, User, UsersLS } from "../ts/models/auth.model";
-import { useNavigate } from "react-router-dom";
+import {
+  ReducerAuthType,
+  User,
+  UserAddress,
+  UsersLS,
+} from "../ts/models/auth.model";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-interface AuthProps {
+interface ChildrenProps {
   children: React.ReactNode;
 }
 
 const AuthContext = createContext<ReducerAuthType | null>(null);
 
-export function AuthContextProvider({ children }: AuthProps) {
+export function AuthContextProvider({ children }: ChildrenProps) {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(authReducer, initalAuthState);
   const [usersStorage, setUsersStorage] = useState<UsersLS[]>([]);
@@ -36,12 +41,22 @@ export function AuthContextProvider({ children }: AuthProps) {
         ...userInfo,
       },
       userOrthers: [],
+      userAddress: [],
     };
 
     usersStorage.push(newUser);
 
     localStorage.setItem("users", JSON.stringify(usersStorage));
     dispatch({ type: "SIGN_IN", payload: { userInfo: userInfo } });
+    dispatch({
+      type: "LOGIN",
+      payload: {
+        userInfo: userInfo,
+        userOrthers: [],
+        userAddresses: [],
+      },
+    });
+    navigate(`/account/${userInfo.name}`);
   }
 
   function login(userEmail: string) {
@@ -54,6 +69,7 @@ export function AuthContextProvider({ children }: AuthProps) {
         payload: {
           userInfo: userFound.userInfo,
           userOrthers: userFound.userOrthers,
+          userAddresses: userFound.userAddress,
         },
       });
       navigate("/");
@@ -63,6 +79,10 @@ export function AuthContextProvider({ children }: AuthProps) {
   function logout() {
     dispatch({ type: "LOGOUT" });
     navigate("/");
+  }
+
+  function addAddress(addresInfo: UserAddress) {
+    dispatch({ type: "ADD_ADDRESS", payload: { userAddress: addresInfo } });
   }
 
   // function editUser(newContact, newDescription) {
@@ -81,7 +101,7 @@ export function AuthContextProvider({ children }: AuthProps) {
   //   navigate(`/profile/${userLogged.userName}`);
   // }
 
-  const authState = { state, signIn, login, logout };
+  const authState = { state, signIn, login, logout, addAddress };
 
   return (
     <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
@@ -92,4 +112,14 @@ export function AuthContextProvider({ children }: AuthProps) {
 export function useAuthContext() {
   const authState = useContext(AuthContext);
   if (authState) return authState;
+}
+
+export function PrivateRoute({ children }: ChildrenProps) {
+  const authState = useAuthContext();
+  const location = useLocation();
+
+  if (authState?.state.userInfo.name == undefined) {
+    return <Navigate to="/signIn" state={{ from: location }} replace />;
+  }
+  return children;
 }
