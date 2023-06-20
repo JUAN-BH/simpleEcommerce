@@ -42,7 +42,6 @@ export const ShoppingCart = () => {
           />
         ))}
       </div>
-
       <article className="">
         <div className="text-xl flex items-center justify-between">
           <p>Total:</p>

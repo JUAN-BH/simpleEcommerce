@@ -47,7 +47,7 @@ export interface AuthAction {
 export interface ReducerAuthType {
   state: InitalAuthState;
   signIn: (userInfo: User) => void;
-  login: (userEmail: string) => void;
+  login: (userEmail: string, userPassword: string) => void;
   logout: () => void;
   addAddress: (addressInfo: UserAddress) => void;
 }

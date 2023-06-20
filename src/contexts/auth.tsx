@@ -59,8 +59,11 @@ export function AuthContextProvider({ children }: ChildrenProps) {
     navigate(`/account/${userInfo.name}`);
   }
 
-  function login(userEmail: string) {
-    const userFound = usersStorage.find((u) => u.userInfo.email === userEmail);
+  function login(userEmail: string, userPassword: string) {
+    const userFound = usersStorage.find(
+      (u) =>
+        u.userInfo.email === userEmail && u.userInfo.password === userPassword
+    );
     // let from =
     //   location.state?.from?.pathname || `/porfile/${userFound.userName}`;
     if (userFound) {

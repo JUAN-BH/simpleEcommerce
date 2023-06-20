@@ -1,4 +1,4 @@
-interface Routes {
+export interface Routes {
   to: string;
   text: string;
   private?: boolean;
@@ -16,14 +16,7 @@ export const commonRoutes: Routes[] = [
 ];
 
 export const authRoutes: Routes[] = [
-  {
-    to: "/signIn",
-    text: "Sign In",
-    className: "sigInbtn",
-    private: false,
-    publicOnly: true,
-  },
-  { to: "/orders", text: "Log out", private: true },
-  { to: "/account", text: "Log out", private: true },
+  { to: "/account", text: "Account", private: true },
+  { to: "/orders", text: "Orders", private: true },
   { to: "/logOut", text: "Log out", private: true },
 ];

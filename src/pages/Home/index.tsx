@@ -31,7 +31,7 @@ export const Home = (): JSX.Element => {
     <>
       <FilterProducts filterFunc={filterProducts} />
       {SCState?.state.detail && <ProductDetail />}
-      <section className="grid grid-cols-4 gap-6 max-w-screen-lg">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 max-w-screen-lg">
         {globalState?.state.loading && <Loader />}
         {products.map((product) => {
           return (
@@ -46,33 +46,6 @@ export const Home = (): JSX.Element => {
             />
           );
         })}
-        {/* {productsFilteredPage.length > 0
-          ? productsFilteredPage.map((products) => {
-              return (
-                <Card
-                  key={products[0].id}
-                  id={products[0].id}
-                  price={products[0].price}
-                  title={products[0].title}
-                  images={products[0].images}
-                  category={products[0].category}
-                  description={products[0].description}
-                />
-              );
-            })
-          : products.map((product) => {
-              return (
-                <Card
-                  key={product.id}
-                  id={product.id}
-                  price={product.price}
-                  title={product.title}
-                  images={product.images}
-                  category={product.category}
-                  description={product.description}
-                />
-              );
-            })} */}
       </section>
       <section
         className={`p-8 items-center gap-4 ${pagesOn ? "flex" : "hidden"}`}

@@ -14,9 +14,9 @@ export const FilterProducts = ({ filterFunc }: FilterProps) => {
   };
 
   return (
-    <section className="mb-6 w-full flex flex-col items-center">
+    <section className="mb-7 w-full flex flex-col items-center">
       <h2 className="text-2xl font-semibold">Exclusive products</h2>
-      <div className="mt-3 w-1/5">
+      <div className="mt-3 w-8/12 md:w-5/12 lg:w-4/12">
         <input
           type="text"
           value={filter}
