@@ -18,5 +18,4 @@ export const commonRoutes: Routes[] = [
 export const authRoutes: Routes[] = [
   { to: "/account", text: "Account", private: true },
   { to: "/orders", text: "Orders", private: true },
-  { to: "/logOut", text: "Log out", private: true },
 ];

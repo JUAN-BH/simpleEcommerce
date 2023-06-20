@@ -24,13 +24,20 @@ export interface UsersLS {
 }
 
 export interface InitalAuthState {
+  loginError: boolean;
   userInfo: User;
   userOrthers: Orders[];
   userAddresses: UserAddress[];
 }
 
 export interface AuthAction {
-  type: "SIGN_IN" | "LOGIN" | "LOGOUT" | "ADD_OTHER" | "ADD_ADDRESS";
+  type:
+    | "SIGN_IN"
+    | "LOGIN_ERROR"
+    | "LOGIN_SUCCESS"
+    | "LOGOUT"
+    | "ADD_OTHER"
+    | "ADD_ADDRESS";
   payload?: {
     userInfo?: User;
     userOrthers?: Orders[];

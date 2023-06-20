@@ -22,16 +22,36 @@ const AuthContext = createContext<ReducerAuthType | null>(null);
 
 export function AuthContextProvider({ children }: ChildrenProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [state, dispatch] = useReducer(authReducer, initalAuthState);
   const [usersStorage, setUsersStorage] = useState<UsersLS[]>([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  //*Trae o crea los usuarios en localStorage
   useEffect(() => {
     setUsersStorage(JSON.parse(localStorage.getItem("users") || "[]"));
     if (!Array.isArray(usersStorage)) {
       localStorage.setItem("users", JSON.stringify([]));
     } else {
       setUsersStorage(JSON.parse(localStorage.getItem("users") || "[]"));
+    }
+  }, []);
+
+  useEffect(() => {
+    const userLogged: UsersLS = JSON.parse(
+      sessionStorage.getItem("userLogged") || "{}"
+    );
+    if (userLogged) {
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: {
+          userInfo: userLogged.userInfo,
+          userOrthers: userLogged.userOrthers,
+          userAddresses: userLogged.userAddress,
+        },
+      });
+    } else {
+      sessionStorage.setItem("userLogged", JSON.stringify({}));
     }
   }, []);
 
@@ -49,7 +69,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
     localStorage.setItem("users", JSON.stringify(usersStorage));
     dispatch({ type: "SIGN_IN", payload: { userInfo: userInfo } });
     dispatch({
-      type: "LOGIN",
+      type: "LOGIN_SUCCESS",
       payload: {
         userInfo: userInfo,
         userOrthers: [],
@@ -64,23 +84,29 @@ export function AuthContextProvider({ children }: ChildrenProps) {
       (u) =>
         u.userInfo.email === userEmail && u.userInfo.password === userPassword
     );
-    // let from =
-    //   location.state?.from?.pathname || `/porfile/${userFound.userName}`;
+
     if (userFound) {
+      sessionStorage.setItem("userLogged", JSON.stringify(userFound));
       dispatch({
-        type: "LOGIN",
+        type: "LOGIN_SUCCESS",
         payload: {
           userInfo: userFound.userInfo,
           userOrthers: userFound.userOrthers,
           userAddresses: userFound.userAddress,
         },
       });
-      navigate("/");
+      const from = location.state?.from?.pathname || `/`;
+      navigate(from, { replace: true });
+    } else {
+      dispatch({
+        type: "LOGIN_ERROR",
+      });
     }
   }
 
   function logout() {
     dispatch({ type: "LOGOUT" });
+    sessionStorage.removeItem("userLogged");
     navigate("/");
   }
 
@@ -121,8 +147,28 @@ export function PrivateRoute({ children }: ChildrenProps) {
   const authState = useAuthContext();
   const location = useLocation();
 
-  if (authState?.state.userInfo.name == undefined) {
+  const userLogged: UsersLS = JSON.parse(
+    sessionStorage.getItem("userLogged") || "{}"
+  );
+
+  if (
+    authState?.state.userInfo.name == undefined &&
+    userLogged.userInfo == undefined
+  ) {
     return <Navigate to="/signIn" state={{ from: location }} replace />;
+  }
+  return children;
+}
+
+export function PrivateOnAuth({ children }: ChildrenProps) {
+  const authState = useAuthContext();
+
+  const userLogged: UsersLS = JSON.parse(
+    sessionStorage.getItem("userLogged") || "{}"
+  );
+
+  if (authState?.state.userInfo.name && userLogged.userInfo.name) {
+    return <Navigate to="/" />;
   }
   return children;
 }

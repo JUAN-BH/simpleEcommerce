@@ -93,6 +93,11 @@ export const SignIn = (): JSX.Element => {
             </Form>
           )}
         </Formik>
+        {authState?.state.loginError && (
+          <p className="text-red-500 text-sm">
+            Email or password are incorrect
+          </p>
+        )}
       </article>
       <article className="w-3/4 sm:w-2/4 md:w-2/5 lg:w-1/4 py-4 px-7 mt-4">
         <div className="flex justify-center items-center gap-2 w-full">

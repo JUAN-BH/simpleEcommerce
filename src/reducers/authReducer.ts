@@ -7,6 +7,7 @@ import {
 } from "../ts/models/auth.model";
 
 export const initalAuthState: InitalAuthState = {
+  loginError: false,
   userInfo: {},
   userOrthers: [],
   userAddresses: [],
@@ -26,13 +27,20 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
           }
         : state;
 
-    case "LOGIN":
+    case "LOGIN_ERROR":
+      return {
+        ...state,
+        loginError: true,
+      };
+
+    case "LOGIN_SUCCESS":
       return payload &&
         payload.userInfo &&
         payload.userOrthers &&
         payload.userAddresses
         ? {
             ...state,
+            loginError: false,
             userInfo: payload.userInfo,
             userOrthers: payload.userOrthers,
             userAddresses: payload.userAddresses,

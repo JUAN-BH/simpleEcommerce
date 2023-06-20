@@ -33,11 +33,24 @@ export const NavAMOptions = ({ isOpen, setOpen }: PropTypes) => {
           />
         </div>
         <div className="flex flex-col gap-4 mt-4 px-5">
-          {authRoutes.map((route) => (
-            <NavItem to={route.to} key={route.to}>
-              <p onClick={() => setOpen(!isOpen)}>{route.text}</p>
-            </NavItem>
-          ))}
+          {authRoutes.map((route) => {
+            if (route.to === "/account") {
+              return (
+                <NavItem
+                  to={`${route.to}/${authState?.state.userInfo.name}`}
+                  key={route.to}
+                >
+                  <p onClick={() => setOpen(!isOpen)}>{route.text}</p>
+                </NavItem>
+              );
+            } else {
+              return (
+                <NavItem to={`${route.to}`} key={route.to}>
+                  <p onClick={() => setOpen(!isOpen)}>{route.text}</p>
+                </NavItem>
+              );
+            }
+          })}
         </div>
       </article>
     </section>

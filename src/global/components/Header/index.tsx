@@ -25,7 +25,7 @@ export const Header = () => {
 
   if (authState && itemsCart)
     return (
-      <header className="fixed z-10 bg-white top-0 w-full py-3 px-3 border-b shadow-sm ">
+      <header className="fixed z-10 bg-white top-0 w-full p-3 md:p-0 border-b shadow-sm">
         <NavMobile
           authRoutes={authRoutes}
           commonRoutes={commonRoutes}

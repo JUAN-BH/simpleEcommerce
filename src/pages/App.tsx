@@ -10,7 +10,11 @@ import { Header } from "../global/components/Header";
 import { Layout } from "../global/containers/Layout";
 import { ShoppingCartContextProvider } from "../contexts/shoppingCartState";
 import { GlobalStateProvider } from "../contexts/globalStateContext";
-import { AuthContextProvider, PrivateRoute } from "../contexts/auth";
+import {
+  AuthContextProvider,
+  PrivateOnAuth,
+  PrivateRoute,
+} from "../contexts/auth";
 import { Register } from "./Register";
 
 const AppRoutes = (): React.ReactElement | null => {
@@ -22,9 +26,9 @@ const AppRoutes = (): React.ReactElement | null => {
     {
       path: "/account/:userName",
       element: (
-        // <PrivateRoute>
-        <Account />
-        // </PrivateRoute>
+        <PrivateRoute>
+          <Account />
+        </PrivateRoute>
       ),
     },
     {
@@ -45,11 +49,19 @@ const AppRoutes = (): React.ReactElement | null => {
     },
     {
       path: "/signIn",
-      element: <SignIn />,
+      element: (
+        <PrivateOnAuth>
+          <SignIn />
+        </PrivateOnAuth>
+      ),
     },
     {
       path: "/register",
-      element: <Register />,
+      element: (
+        <PrivateOnAuth>
+          <Register />
+        </PrivateOnAuth>
+      ),
     },
     {
       path: "/checkOut/information",
