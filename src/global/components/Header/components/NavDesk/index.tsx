@@ -19,7 +19,7 @@ export const NavDesk = ({
 
   return (
     <nav className="hidden md:flex justify-between items-center max-w-screen-xl mx-auto">
-      <ul className="flex items-center gap-4 p-3">
+      <ul className="flex items-center gap-4 p-4">
         <li>
           <NavItem to="/">
             <h1 className="text-2xl text-green-500 font-bold font-mono">

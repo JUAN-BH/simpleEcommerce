@@ -7,7 +7,13 @@ export const ProductDetail = () => {
   };
 
   return (
-    <aside className="pd">
+    <aside
+      className={`pd ${
+        SCState?.state.detail
+          ? "translate-x-0 opacity-100"
+          : "translate-x-full opacity-0"
+      }`}
+    >
       <div className="flex items-center justify-between w-full">
         <h2 className="text-2xl font-semibold">Detail</h2>
         <button

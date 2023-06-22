@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .pd {
-  @apply flex flex-col fixed top-[64.8px] z-10 right-0 shadow-lg border border-black/10 bg-white  rounded-lg rounded-e-none w-full  md:w-[500px] p-4 h-[calc(100vh-64.8px)];
+  @apply flex flex-col fixed top-[65px] z-10 right-0 shadow-lg border border-black/10 bg-white rounded-lg rounded-e-none w-full  md:w-[500px] p-4 h-[calc(100vh-64.8px)] transition-all duration-500 ease-in-out;
 }
 
 .sigInbtn {

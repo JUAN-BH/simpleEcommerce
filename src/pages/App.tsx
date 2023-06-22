@@ -5,7 +5,6 @@ import { NotFound } from "./NotFound";
 import { Order } from "./Order";
 import { Orders } from "./Orders";
 import { SignIn } from "./SignIn";
-import { LogOut } from "./LogOut";
 import { Header } from "../global/components/Header";
 import { Layout } from "../global/containers/Layout";
 import { ShoppingCartContextProvider } from "../contexts/shoppingCartState";
@@ -16,6 +15,7 @@ import {
   PrivateRoute,
 } from "../contexts/auth";
 import { Register } from "./Register";
+import { Checkout } from "./Checkout";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -64,26 +64,10 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/checkOut/information",
+      path: "/checkout",
       element: (
         <PrivateRoute>
-          <Account />
-        </PrivateRoute>
-      ),
-    },
-    {
-      path: "/checkOut/payment",
-      element: (
-        <PrivateRoute>
-          <Account />
-        </PrivateRoute>
-      ),
-    },
-    {
-      path: "/logOut",
-      element: (
-        <PrivateRoute>
-          <LogOut />
+          <Checkout />
         </PrivateRoute>
       ),
     },
