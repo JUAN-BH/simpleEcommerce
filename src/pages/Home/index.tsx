@@ -1,9 +1,7 @@
 import { useGlobalState } from "../../contexts/globalStateContext";
-import { useShoppingCartContext } from "../../contexts/shoppingCartState";
 import { Card } from "../../global/components/Card";
 import { FilterProducts } from "../../global/components/FilterProducts";
 import { Loader } from "../../global/components/Loader";
-import { ModalNotification } from "../../global/components/ModalNotification";
 import useProducts from "../../hooks/useProducts";
 import { ProductDetail } from "./Components/ProductDetail";
 
@@ -16,8 +14,9 @@ export const Home = (): JSX.Element => {
     goToPage,
     pagesOn,
   } = useProducts();
-  const SCState = useShoppingCartContext();
   const globalState = useGlobalState();
+
+  // console.log(products);
 
   const prevPage = () => {
     if (currentPage > 1) {
@@ -31,7 +30,6 @@ export const Home = (): JSX.Element => {
   return (
     <>
       <FilterProducts filterFunc={filterProducts} />
-      <ModalNotification />
       <ProductDetail />
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 max-w-screen-lg">
         {globalState?.state.loading && <Loader />}

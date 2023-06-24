@@ -1,16 +1,21 @@
 export interface User {
+  id?: string;
   name?: string;
   email?: string;
-  // phone?: number;
   password?: string;
 }
 
 export interface UserAddress {
-  country?: string;
-  city?: string;
-  state?: string;
-  address?: string;
-  zipCode?: string;
+  id: string;
+  country: string;
+  fullName: string;
+  phoneNumber: string;
+  address: string;
+  addressExtraInfo?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  default: boolean;
 }
 
 export interface Orders {
@@ -37,7 +42,8 @@ export interface AuthAction {
     | "LOGIN_SUCCESS"
     | "LOGOUT"
     | "ADD_OTHER"
-    | "ADD_ADDRESS";
+    | "ADD_ADDRESS"
+    | "EDIT_USER";
   payload?: {
     userInfo?: User;
     userOrthers?: Orders[];
@@ -56,5 +62,6 @@ export interface ReducerAuthType {
   signIn: (userInfo: User) => void;
   login: (userEmail: string, userPassword: string) => void;
   logout: () => void;
-  addAddress: (addressInfo: UserAddress) => void;
+  addAddress: (idUser: string, addressInfo: UserAddress) => void;
+  editUser: (idUser: string, newName: string, newPassword: string) => void;
 }

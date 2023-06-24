@@ -21,7 +21,7 @@ export const NavCMOptions = ({ isOpen, setOpen }: PropTypes) => {
         }`}
       >
         <div className="w-full py-4 px-5 bg-green-500">
-          <h1 className="ml-10 mt-1 text-2xl text-white font-bold font-mono ">
+          <h1 className="ml-8 text-2xl text-white font-bold font-mono ">
             SHOPPI
           </h1>
         </div>

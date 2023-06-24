@@ -31,6 +31,7 @@ export const ShoppingCart = () => {
         payload: "Your cart is empty, please add some items first",
       });
     } else {
+      SCState?.dispatch({ type: "CLOSE_CART" });
       navigate("/checkout");
     }
   };

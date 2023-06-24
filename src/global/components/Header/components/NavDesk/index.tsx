@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/outline";
 import { NavProps } from "../..";
 import { NavItem } from "../../../NavItem";
 import { useNavigate } from "react-router-dom";
-import { NavADOptions } from "../NavADOptions";
+// import { NavADOptions } from "../NavADOptions";
 
 export const NavDesk = ({
   commonRoutes,
@@ -11,7 +10,7 @@ export const NavDesk = ({
   itemsCart,
   handleOpenCart,
 }: NavProps) => {
-  const [openAuthOp, setOpenAuthOp] = useState<boolean>(false);
+  // const [openAuthOp, setOpenAuthOp] = useState<boolean>(false);
   const navigate = useNavigate();
   const goSignIn = () => {
     navigate("/signin");
@@ -42,27 +41,28 @@ export const NavDesk = ({
         {authState.userInfo.name ? (
           <li
             className="flex items-center h-[64px] cursor-pointer"
-            onMouseEnter={() => {
-              setOpenAuthOp(true);
-            }}
-            onMouseLeave={() => {
-              setOpenAuthOp(false);
-            }}
+            onClick={() => navigate(`/account/${authState.userInfo.name}`)}
+            // onMouseEnter={() => {
+            //   setOpenAuthOp(true);
+            // }}
+            // onMouseLeave={() => {
+            //   setOpenAuthOp(false);
+            // }}
           >
             <span className="text-sm mr-1 text-gray-500">
               {authState.userInfo.name}
             </span>
             <UserIcon className="w-7 h-7 mr-1 text-green-500 fill-green-500" />
-            {openAuthOp && (
+            {/* {openAuthOp && (
               <NavADOptions
                 openAuthOp={openAuthOp}
                 setOpenAuthOp={setOpenAuthOp}
               />
-            )}
+            )} */}
           </li>
         ) : (
           <li>
-            <button onClick={goSignIn} className="sigInbtn">
+            <button onClick={goSignIn} className="btn">
               Sign in
             </button>
           </li>

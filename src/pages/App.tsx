@@ -16,6 +16,9 @@ import {
 } from "../contexts/auth";
 import { Register } from "./Register";
 import { Checkout } from "./Checkout";
+import { AccountEdit } from "./AccountEdit";
+import { AccountAddresses } from "./AccountAddresses";
+import { NewAddress } from "./NewAddress";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -28,6 +31,30 @@ const AppRoutes = (): React.ReactElement | null => {
       element: (
         <PrivateRoute>
           <Account />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/account/:userName/edit",
+      element: (
+        <PrivateRoute>
+          <AccountEdit />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/account/:userName/addresses",
+      element: (
+        <PrivateRoute>
+          <AccountAddresses />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/account/:userName/addresses/add-address",
+      element: (
+        <PrivateRoute>
+          <NewAddress />
         </PrivateRoute>
       ),
     },

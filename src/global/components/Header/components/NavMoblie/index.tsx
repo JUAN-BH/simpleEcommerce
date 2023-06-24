@@ -6,11 +6,10 @@ import { Squash as Hamburger } from "hamburger-react";
 import { NavCMOptions } from "../NavCMOptions";
 import { useAuthContext } from "../../../../../contexts/auth";
 import { useNavigate } from "react-router-dom";
-import { NavAMOptions } from "../NavAMOptions";
+// import { NavAMOptions } from "../NavAMOptions";
 
 export const NavMobile = ({ itemsCart, handleOpenCart }: NavProps) => {
   const [isOpen, setOpen] = useState<boolean>(false);
-  const [authOpen, setauthOpen] = useState<boolean>(false);
   const authState = useAuthContext();
   const navigate = useNavigate();
   const goSignIn = () => {
@@ -18,7 +17,7 @@ export const NavMobile = ({ itemsCart, handleOpenCart }: NavProps) => {
   };
 
   const openAuth = () => {
-    setauthOpen(!authOpen);
+    navigate(`/account/${authState?.state.userInfo.name}`);
   };
 
   return (
@@ -51,7 +50,7 @@ export const NavMobile = ({ itemsCart, handleOpenCart }: NavProps) => {
           </li>
         ) : (
           <li>
-            <button onClick={goSignIn} className="sigInbtn">
+            <button onClick={goSignIn} className="btn">
               Sign in
             </button>
           </li>
@@ -69,7 +68,7 @@ export const NavMobile = ({ itemsCart, handleOpenCart }: NavProps) => {
         </li>
       </ul>
       <NavCMOptions isOpen={isOpen} setOpen={setOpen} />
-      <NavAMOptions isOpen={authOpen} setOpen={setauthOpen} />
+      {/* <NavAMOptions isOpen={authOpen} setOpen={setauthOpen} /> */}
     </nav>
   );
 };

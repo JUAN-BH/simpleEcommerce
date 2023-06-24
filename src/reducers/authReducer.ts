@@ -26,6 +26,13 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
             userAddresses: [],
           }
         : state;
+    case "EDIT_USER":
+      return payload && payload.userInfo
+        ? {
+            ...state,
+            userInfo: payload.userInfo,
+          }
+        : state;
 
     case "LOGIN_ERROR":
       return {

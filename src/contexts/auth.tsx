@@ -13,6 +13,7 @@ import {
   UsersLS,
 } from "../ts/models/auth.model";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { generateId } from "../utils/idGenerator";
 
 interface ChildrenProps {
   children: React.ReactNode;
@@ -36,7 +37,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
       setUsersStorage(JSON.parse(localStorage.getItem("users") || "[]"));
     }
   }, []);
-
+  //*Retiene el usuario logeado
   useEffect(() => {
     const userLogged: UsersLS = JSON.parse(
       sessionStorage.getItem("userLogged") || "{}"
@@ -58,6 +59,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
   function signIn(userInfo: User) {
     const newUser: UsersLS = {
       userInfo: {
+        id: generateId(),
         ...userInfo,
       },
       userOrthers: [],
@@ -110,33 +112,33 @@ export function AuthContextProvider({ children }: ChildrenProps) {
     navigate("/");
   }
 
-  function addAddress(addresInfo: UserAddress) {
+  function addAddress(idUser: string, addresInfo: UserAddress) {
+    const userIndex = usersStorage.findIndex((u) => u.userInfo.id === idUser);
+    usersStorage[userIndex].userAddress.push(addresInfo);
+    localStorage.setItem("users", JSON.stringify(usersStorage));
+    sessionStorage.setItem(
+      "userLogged",
+      JSON.stringify(usersStorage[userIndex])
+    );
     dispatch({ type: "ADD_ADDRESS", payload: { userAddress: addresInfo } });
+    navigate(`/account/${state.userInfo.name}/addresses`);
   }
 
-  // function editUser(newContact, newDescription) {
-  //   let userToEditIndex = users.findIndex(
-  //     (u) => u.userName === userLogged.userName
-  //   );
-  //   const userEdit = {
-  //     ...users[userToEditIndex],
-  //     contact: newContact,
-  //     description: newDescription,
-  //   };
-  //   const newUsers = users;
-  //   newUsers[userToEditIndex] = userEdit;
-  //   setUsers(newUsers);
+  function editUser(idUser: string, newName: string, newPassword: string) {
+    const userIndex = usersStorage.findIndex((u) => u.userInfo.id === idUser);
+    state.userInfo.name = newName;
+    state.userInfo.password = newPassword;
+    usersStorage[userIndex].userInfo.name = newName;
+    usersStorage[userIndex].userInfo.password = newPassword;
+    localStorage.setItem("users", JSON.stringify(usersStorage));
+  }
 
-  //   navigate(`/profile/${userLogged.userName}`);
-  // }
-
-  const authState = { state, signIn, login, logout, addAddress };
+  const authState = { state, signIn, login, logout, addAddress, editUser };
 
   return (
     <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
   );
 }
-
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAuthContext() {
   const authState = useContext(AuthContext);
