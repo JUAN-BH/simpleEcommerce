@@ -71,21 +71,25 @@ export const useAuth = (): ReturnFunc => {
     navigate("/");
   }
 
-  function editUser(idUser: string, newName: string, newPassword: string) {
+  function editUser(id: string, name: string, password: string): void {
     const userIndex = authState?.usersStorage.findIndex(
-      (u) => u.userInfo.id === idUser
+      (u) => u.userInfo.id === id
     );
 
-    if (authState?.state.userInfo) {
-      authState.state.userInfo.name = newName;
-      authState.state.userInfo.password = newPassword;
+    if (name !== "") {
+      const userInfo = authState?.state.userInfo;
+      const userStorageInfo =
+        authState?.usersStorage[userIndex as number]?.userInfo;
+      userInfo && (userInfo.name = name);
+      userStorageInfo && (userStorageInfo.name = name);
+    } else if (password !== "") {
+      const userInfo = authState?.state.userInfo;
+      const userStorageInfo =
+        authState?.usersStorage[userIndex as number]?.userInfo;
+      userInfo && (userInfo.password = password);
+      userStorageInfo && (userStorageInfo.password = password);
     }
 
-    if (authState?.usersStorage[userIndex as number]?.userInfo) {
-      authState.usersStorage[userIndex as number].userInfo.name = newName;
-      authState.usersStorage[userIndex as number].userInfo.password =
-        newPassword;
-    }
     localStorage.setItem("users", JSON.stringify(authState?.usersStorage));
   }
 
@@ -105,6 +109,34 @@ export const useAuth = (): ReturnFunc => {
     });
     navigate(`/account/${authState?.state.userInfo.name}/addresses`);
   }
+
+  // function removeAddress(idUser: string, addressId: string) {
+  //   const userIndex = authState?.usersStorage.findIndex(
+  //     (u) => u.userInfo.id === idUser
+  //   );
+
+  //   if (
+  //     userIndex !== undefined &&
+  //     authState?.usersStorage[userIndex]?.userAddress
+  //   ) {
+  //     const addressesInStorage = authState.usersStorage[userIndex].userAddress;
+
+  //     authState.usersStorage[userIndex].userAddress =
+  //       addressesInStorage?.filter((a) => a.id !== addressId);
+
+  //     localStorage.setItem("users", JSON.stringify(authState?.usersStorage));
+  //     sessionStorage.setItem(
+  //       "userLogged",
+  //       JSON.stringify(authState?.usersStorage[userIndex as number])
+  //     );
+  //     authState.dispatch({
+  //       type: "REMOVE_ADDRESS",
+  //       payload: { addressId: addressId },
+  //     })
+  //     navigate(`/account/${authState?.state.userInfo.name}/addresses`);
+  //   }
+
+  // }
 
   return {
     signIn,

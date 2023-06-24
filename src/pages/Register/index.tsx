@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik";
 import { Link } from "react-router-dom";
 import { User } from "../../ts/models/auth.model";
 import { useAuth } from "../../hooks/useAuth";
+import { useAuthContext } from "../../contexts/auth";
 
 interface RegisterValues {
   userName: string;
@@ -11,6 +12,9 @@ interface RegisterValues {
 }
 
 export const Register = () => {
+  const authState = useAuthContext();
+  const usersInLsEmail =
+    authState?.usersStorage.map((u) => u.userInfo.email) || [];
   const { signIn } = useAuth();
   const registerValues: RegisterValues = {
     userName: "",
@@ -26,23 +30,25 @@ export const Register = () => {
     if (!values.userName) {
       errors.userName = "Please enter your name";
     } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.userName)) {
-      errors.userName = "El nombre solo puede contener letras y espacios";
+      errors.userName = "Your name can only contain letters";
     }
 
     if (!values.userEmail) {
-      errors.userEmail = "El correo electrónico es requerido";
+      errors.userEmail = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(values.userEmail)) {
-      errors.userEmail = "Formato de correo electrónico inválido";
+      errors.userEmail = "The email address is invalid";
+    } else if (usersInLsEmail.includes(values.userEmail)) {
+      errors.userEmail = "The email address is already in use";
     }
 
     if (!values.userPassword) {
-      errors.userPassword = "La contraseña es requerida";
+      errors.userPassword = "Password is required";
     }
 
     if (!values.userPasswordValid) {
-      errors.userPasswordValid = "La confirmación de contraseña es requerida";
+      errors.userPasswordValid = "The confirmation password is required";
     } else if (values.userPassword !== values.userPasswordValid) {
-      errors.userPasswordValid = "Las contraseñas no coinciden";
+      errors.userPasswordValid = "Passwords do not match";
     }
 
     return errors;

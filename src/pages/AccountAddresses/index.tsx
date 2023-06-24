@@ -30,6 +30,8 @@ export const AccountAddresses = () => {
           zipCode={address.zipCode}
           country={address.country}
           phone={address.phoneNumber}
+          isDefault={address.default}
+          extraInfo={address.addressExtraInfo}
         />
       ))}
     </section>

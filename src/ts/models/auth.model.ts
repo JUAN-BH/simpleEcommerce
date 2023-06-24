@@ -41,9 +41,11 @@ export interface AuthAction {
     | "LOGIN_ERROR"
     | "LOGIN_SUCCESS"
     | "LOGOUT"
+    | "EDIT_USER"
     | "ADD_OTHER"
     | "ADD_ADDRESS"
-    | "EDIT_USER";
+    | "REMOVE_ADDRESS"
+    | "EDIT_ADDRESS";
   payload?: {
     userInfo?: User;
     userOrthers?: Orders[];
