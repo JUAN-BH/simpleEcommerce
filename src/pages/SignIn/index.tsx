@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/auth";
+import { useAuth } from "../../hooks/useAuth";
 // import { User } from "../../ts/models/auth.model";
 
 interface LoginValues {
@@ -10,8 +11,9 @@ interface LoginValues {
 
 export const SignIn = (): JSX.Element => {
   // const usersLS = JSON.parse(localStorage.getItem("users") || "[]");
-  const authState = useAuthContext();
   const navigate = useNavigate();
+  const authState = useAuthContext();
+  const { login } = useAuth();
   const loginValues: LoginValues = {
     userEmail: "",
     userPassword: "",
@@ -33,7 +35,7 @@ export const SignIn = (): JSX.Element => {
   };
 
   const handleSubmit = (values: LoginValues) => {
-    authState?.login(values.userEmail, values.userPassword);
+    login(values.userEmail, values.userPassword);
   };
 
   return (

@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../contexts/auth";
 import { User } from "../../ts/models/auth.model";
+import { useAuth } from "../../hooks/useAuth";
 
 interface RegisterValues {
   userName: string;
@@ -11,7 +11,7 @@ interface RegisterValues {
 }
 
 export const Register = () => {
-  const authState = useAuthContext();
+  const { signIn } = useAuth();
   const registerValues: RegisterValues = {
     userName: "",
     userEmail: "",
@@ -55,7 +55,7 @@ export const Register = () => {
       email: values.userEmail,
       password: values.userPassword,
     };
-    authState?.signIn(userInfo);
+    signIn(userInfo);
   };
 
   return (

@@ -1,19 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../contexts/auth";
 import { useState } from "react";
+import { useAuthContext } from "../../contexts/auth";
+import { useAuth } from "../../hooks/useAuth";
 
 export const AccountEdit = () => {
-  const authState = useAuthContext();
   const navigate = useNavigate();
   const [newName, setNewName] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
+  const authState = useAuthContext();
+  const { editUser } = useAuth();
   const userId = authState?.state.userInfo.id;
   const handleOnCancel = () => {
     navigate(`/account/${authState?.state.userInfo.name}`);
   };
 
   const hanldeEditUser = () => {
-    if (userId) authState?.editUser(userId, newName, newPassword);
+    if (userId) editUser(userId, newName, newPassword);
     navigate(`/account/${authState?.state.userInfo.name}`);
   };
 

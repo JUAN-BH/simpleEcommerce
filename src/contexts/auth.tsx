@@ -6,14 +6,8 @@ import {
   useState,
 } from "react";
 import { authReducer, initalAuthState } from "../reducers/authReducer";
-import {
-  ReducerAuthType,
-  User,
-  UserAddress,
-  UsersLS,
-} from "../ts/models/auth.model";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { generateId } from "../utils/idGenerator";
+import { ReducerAuthType, UsersLS } from "../ts/models/auth.model";
+import { Navigate, useLocation } from "react-router-dom";
 
 interface ChildrenProps {
   children: React.ReactNode;
@@ -22,9 +16,6 @@ interface ChildrenProps {
 const AuthContext = createContext<ReducerAuthType | null>(null);
 
 export function AuthContextProvider({ children }: ChildrenProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const [state, dispatch] = useReducer(authReducer, initalAuthState);
   const [usersStorage, setUsersStorage] = useState<UsersLS[]>([]);
 
@@ -56,84 +47,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
     }
   }, []);
 
-  function signIn(userInfo: User) {
-    const newUser: UsersLS = {
-      userInfo: {
-        id: generateId(),
-        ...userInfo,
-      },
-      userOrthers: [],
-      userAddress: [],
-    };
-
-    usersStorage.push(newUser);
-
-    localStorage.setItem("users", JSON.stringify(usersStorage));
-    dispatch({ type: "SIGN_IN", payload: { userInfo: userInfo } });
-    dispatch({
-      type: "LOGIN_SUCCESS",
-      payload: {
-        userInfo: userInfo,
-        userOrthers: [],
-        userAddresses: [],
-      },
-    });
-    navigate(`/account/${userInfo.name}`);
-  }
-
-  function login(userEmail: string, userPassword: string) {
-    const userFound = usersStorage.find(
-      (u) =>
-        u.userInfo.email === userEmail && u.userInfo.password === userPassword
-    );
-
-    if (userFound) {
-      sessionStorage.setItem("userLogged", JSON.stringify(userFound));
-      dispatch({
-        type: "LOGIN_SUCCESS",
-        payload: {
-          userInfo: userFound.userInfo,
-          userOrthers: userFound.userOrthers,
-          userAddresses: userFound.userAddress,
-        },
-      });
-      const from = location.state?.from?.pathname || `/`;
-      navigate(from, { replace: true });
-    } else {
-      dispatch({
-        type: "LOGIN_ERROR",
-      });
-    }
-  }
-
-  function logout() {
-    dispatch({ type: "LOGOUT" });
-    sessionStorage.removeItem("userLogged");
-    navigate("/");
-  }
-
-  function addAddress(idUser: string, addresInfo: UserAddress) {
-    const userIndex = usersStorage.findIndex((u) => u.userInfo.id === idUser);
-    usersStorage[userIndex].userAddress.push(addresInfo);
-    localStorage.setItem("users", JSON.stringify(usersStorage));
-    sessionStorage.setItem(
-      "userLogged",
-      JSON.stringify(usersStorage[userIndex])
-    );
-    dispatch({ type: "ADD_ADDRESS", payload: { userAddress: addresInfo } });
-    navigate(`/account/${state.userInfo.name}/addresses`);
-  }
-
-  function editUser(idUser: string, newName: string, newPassword: string) {
-    const userIndex = usersStorage.findIndex((u) => u.userInfo.id === idUser);
-    state.userInfo.name = newName;
-    state.userInfo.password = newPassword;
-    usersStorage[userIndex].userInfo.name = newName;
-    usersStorage[userIndex].userInfo.password = newPassword;
-    localStorage.setItem("users", JSON.stringify(usersStorage));
-  }
-
-  const authState = { state, signIn, login, logout, addAddress, editUser };
+  const authState = { usersStorage, state, dispatch };
 
   return (
     <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>

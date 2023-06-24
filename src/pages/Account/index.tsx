@@ -3,9 +3,11 @@ import addressImg from "./assets/location.png";
 import editAccountImg from "./assets/edit.png";
 import { useAuthContext } from "../../contexts/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Account = (): JSX.Element => {
   const authState = useAuthContext();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const editAccount = () => {
@@ -16,7 +18,7 @@ export const Account = (): JSX.Element => {
     navigate(`/account/${authState?.state.userInfo.name}/addresses`);
   };
   const logOut = () => {
-    authState?.logout();
+    logout();
   };
 
   return (

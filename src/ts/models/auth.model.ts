@@ -58,10 +58,7 @@ export interface AuthAction {
 //   dispatch: React.Dispatch<AuthAction>;
 // }
 export interface ReducerAuthType {
+  usersStorage: UsersLS[];
   state: InitalAuthState;
-  signIn: (userInfo: User) => void;
-  login: (userEmail: string, userPassword: string) => void;
-  logout: () => void;
-  addAddress: (idUser: string, addressInfo: UserAddress) => void;
-  editUser: (idUser: string, newName: string, newPassword: string) => void;
+  dispatch: React.Dispatch<AuthAction>;
 }

@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik";
 import { UserAddress } from "../../../ts/models/auth.model";
 import { generateId } from "../../../utils/idGenerator";
 import { useAuthContext } from "../../../contexts/auth";
+import { useAuth } from "../../../hooks/useAuth";
 
 interface AddressValues {
   country: string;
@@ -16,6 +17,7 @@ interface AddressValues {
 }
 export const AddressForm = () => {
   const auhtState = useAuthContext();
+  const { addAddress } = useAuth();
   const intialValues: AddressValues = {
     country: "",
     fullName: "",
@@ -72,7 +74,7 @@ export const AddressForm = () => {
       default: values.default,
     };
     if (auhtState?.state.userInfo.id)
-      auhtState?.addAddress(auhtState?.state.userInfo.id, addressInfo);
+      addAddress(auhtState?.state.userInfo.id, addressInfo);
     console.log(values);
   };
 
