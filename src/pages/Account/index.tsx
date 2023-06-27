@@ -11,11 +11,11 @@ export const Account = (): JSX.Element => {
   const navigate = useNavigate();
 
   const editAccount = () => {
-    navigate(`/account/${authState?.state.userInfo.name}/edit`);
+    navigate(`/account/${authState?.state.userInfo.id}/edit`);
   };
 
   const goToAddresses = () => {
-    navigate(`/account/${authState?.state.userInfo.name}/addresses`);
+    navigate(`/account/${authState?.state.userInfo.id}/addresses`);
   };
   const logOut = () => {
     logout();

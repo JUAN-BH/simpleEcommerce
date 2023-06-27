@@ -19,6 +19,7 @@ import { Checkout } from "./Checkout";
 import { AccountEdit } from "./AccountEdit";
 import { AccountAddresses } from "./AccountAddresses";
 import { NewAddress } from "./NewAddress";
+import { EditAddress } from "./EditAddress";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -27,7 +28,7 @@ const AppRoutes = (): React.ReactElement | null => {
       element: <Home />,
     },
     {
-      path: "/account/:userName",
+      path: "/account/:idUser",
       element: (
         <PrivateRoute>
           <Account />
@@ -35,7 +36,7 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/account/:userName/edit",
+      path: "/account/:idUser/edit",
       element: (
         <PrivateRoute>
           <AccountEdit />
@@ -43,7 +44,7 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/account/:userName/addresses",
+      path: "/account/:idUser/addresses",
       element: (
         <PrivateRoute>
           <AccountAddresses />
@@ -51,10 +52,18 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/account/:userName/addresses/add-address",
+      path: "/account/:idUser/addresses/add-address",
       element: (
         <PrivateRoute>
           <NewAddress />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/account/:idUser/addresses/edit-address/:idAddress",
+      element: (
+        <PrivateRoute>
+          <EditAddress />
         </PrivateRoute>
       ),
     },

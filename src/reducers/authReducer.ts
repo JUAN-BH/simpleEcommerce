@@ -78,6 +78,21 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
           }
         : state;
 
+    case "REMOVE_ADDRESS":
+      return payload && payload.userAddresses
+        ? {
+            ...state,
+            userAddresses: payload.userAddresses,
+          }
+        : state;
+    case "EDIT_ADDRESS":
+      return payload && payload.userAddresses
+        ? {
+            ...state,
+            userAddresses: payload.userAddresses,
+          }
+        : state;
+
     default:
       return state;
   }

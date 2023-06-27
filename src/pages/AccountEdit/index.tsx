@@ -11,12 +11,12 @@ export const AccountEdit = () => {
   const { editUser } = useAuth();
   const userId = authState?.state.userInfo.id;
   const handleOnCancel = () => {
-    navigate(`/account/${authState?.state.userInfo.name}`);
+    navigate(`/account/${userId}`);
   };
 
   const hanldeEditUser = () => {
     if (userId) editUser(userId, newName, newPassword);
-    navigate(`/account/${authState?.state.userInfo.name}`);
+    navigate(`/account/${userId}`);
   };
 
   return (

@@ -6,16 +6,16 @@ export interface User {
 }
 
 export interface UserAddress {
-  id: string;
-  country: string;
-  fullName: string;
-  phoneNumber: string;
+  idAddress: string;
+  name: string;
   address: string;
-  addressExtraInfo?: string;
+  extraInfo?: string;
   city: string;
   state: string;
   zipCode: string;
-  default: boolean;
+  country: string;
+  phone: string;
+  isDefault: boolean;
 }
 
 export interface Orders {

@@ -17,7 +17,7 @@ export const NavMobile = ({ itemsCart, handleOpenCart }: NavProps) => {
   };
 
   const openAuth = () => {
-    navigate(`/account/${authState?.state.userInfo.name}`);
+    navigate(`/account/${authState?.state.userInfo.id}`);
   };
 
   return (

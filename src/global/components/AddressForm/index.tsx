@@ -3,46 +3,55 @@ import { UserAddress } from "../../../ts/models/auth.model";
 import { generateId } from "../../../utils/idGenerator";
 import { useAuthContext } from "../../../contexts/auth";
 import { useAuth } from "../../../hooks/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
 
-interface AddressValues {
-  country: string;
-  fullName: string;
-  phoneNumber: string;
-  address: string;
-  addressExtraInfo: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  default: boolean;
-}
-export const AddressForm = () => {
+type AddressProps = Partial<UserAddress>;
+
+export const AddressForm = ({
+  idAddress,
+  country,
+  name,
+  phone,
+  address,
+  extraInfo,
+  city,
+  state,
+  zipCode,
+  isDefault,
+}: AddressProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const auhtState = useAuthContext();
-  const { addAddress } = useAuth();
-  const intialValues: AddressValues = {
-    country: "",
-    fullName: "",
-    phoneNumber: "",
-    address: "",
-    addressExtraInfo: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    default: false,
+  const { addAddress, editAddress } = useAuth();
+
+  const isNewAddress = location.pathname.includes("add-address");
+
+  const intialValues: UserAddress = {
+    idAddress: idAddress || "",
+    country: country || "",
+    name: name || "",
+    phone: phone || "",
+    address: address || "",
+    extraInfo: extraInfo || "",
+    city: city || "",
+    state: state || "",
+    zipCode: zipCode || "",
+    isDefault: isDefault || false,
   };
 
-  const handleValidate = (values: AddressValues) => {
-    const errors: Partial<AddressValues> = {};
+  const handleValidate = (values: UserAddress) => {
+    const errors: Partial<UserAddress> = {};
 
     if (!values.country) {
       errors.country = "Country is required";
     }
 
-    if (!values.fullName) {
-      errors.fullName = "Please enter your full name";
+    if (!values.name) {
+      errors.name = "Please enter your full name";
     }
 
-    if (!values.phoneNumber) {
-      errors.phoneNumber = "Please enter your phone number";
+    if (!values.phone) {
+      errors.phone = "Please enter your phone number";
     }
     if (!values.address) {
       errors.address = "Please enter your address";
@@ -60,22 +69,31 @@ export const AddressForm = () => {
     return errors;
   };
 
-  const handleSubmit = (values: AddressValues) => {
+  const handleSubmit = (values: UserAddress) => {
+    let idAddress = intialValues.idAddress;
+    if (intialValues.idAddress === "") {
+      idAddress = generateId();
+    }
     const addressInfo: UserAddress = {
-      id: generateId(),
+      idAddress: idAddress,
       country: values.country,
-      fullName: values.fullName,
-      phoneNumber: values.phoneNumber,
+      name: values.name,
+      phone: values.phone,
       address: values.address,
-      addressExtraInfo: values.addressExtraInfo,
+      extraInfo: values.extraInfo,
       city: values.city,
       state: values.state,
       zipCode: values.zipCode,
-      default: values.default,
+      isDefault: values.isDefault,
     };
     if (auhtState?.state.userInfo.id)
-      addAddress(auhtState?.state.userInfo.id, addressInfo);
-    console.log(values);
+      isNewAddress
+        ? addAddress(auhtState?.state.userInfo.id, addressInfo)
+        : editAddress(values.idAddress, addressInfo);
+  };
+
+  const handleOnCancel = () => {
+    navigate(`/account/${auhtState?.state.userInfo.id}/addresses`);
   };
 
   return (
@@ -85,7 +103,7 @@ export const AddressForm = () => {
         validate={handleValidate}
         initialValues={intialValues}
       >
-        {(formikProps: FormikProps<AddressValues>) => (
+        {(formikProps: FormikProps<UserAddress>) => (
           <Form
             onSubmit={formikProps.handleSubmit}
             className="flex flex-col gap-6 mt-4"
@@ -107,36 +125,36 @@ export const AddressForm = () => {
                 )}
               />
             </label>
-            <label htmlFor="fullName">
+            <label htmlFor="name">
               <p className="font-semibold">Full name</p>
               <Field
                 className="inputStyle"
-                name="fullName"
+                name="name"
                 type="text"
                 placeholder="Example: John Doe"
               />
               <ErrorMessage
-                name="fullName"
+                name="name"
                 component={() => (
                   <div className="text-red-500 text-sm">
-                    {formikProps.errors.fullName}
+                    {formikProps.errors.name}
                   </div>
                 )}
               />
             </label>
-            <label htmlFor="phoneNumber">
+            <label htmlFor="phone">
               <p className="font-semibold">Phone number</p>
               <Field
                 className="inputStyle"
-                name="phoneNumber"
+                name="phone"
                 type="number"
                 placeholder="Enter your phone number"
               />
               <ErrorMessage
-                name="phoneNumber"
+                name="phone"
                 component={() => (
                   <div className="text-red-500 text-sm">
-                    {formikProps.errors.phoneNumber}
+                    {formikProps.errors.phone}
                   </div>
                 )}
               />
@@ -159,7 +177,7 @@ export const AddressForm = () => {
               />
               <Field
                 className="inputStyle mt-2"
-                name="addressExtraInfo"
+                name="extraInfo"
                 type="text"
                 placeholder="Apt, suite, floor, etc."
               />
@@ -217,18 +235,29 @@ export const AddressForm = () => {
                 />
               </label>
             </div>
-            <label htmlFor="default" className="flex gap-2">
+            <label htmlFor="isDefault" className="flex gap-2">
               <Field
-                id="default"
-                name="default"
+                id="isDefault"
+                name="isDefault"
                 type="checkbox"
                 placeholder="Enter your zip code"
               />
               <p className="text-sm">Select this address as your default</p>
             </label>
-            <button type="submit" className="btn">
-              Save address
-            </button>
+            <div className="flex gap-4 justify-center">
+              <button type="submit" className="btn">
+                Save address
+              </button>
+              {!isNewAddress && (
+                <button
+                  onClick={handleOnCancel}
+                  type="button"
+                  className="logOutbtn"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </Form>
         )}
       </Formik>

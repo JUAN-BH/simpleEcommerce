@@ -41,7 +41,7 @@ export const NavDesk = ({
         {authState.userInfo.name ? (
           <li
             className="flex items-center h-[64px] cursor-pointer"
-            onClick={() => navigate(`/account/${authState.userInfo.name}`)}
+            onClick={() => navigate(`/account/${authState.userInfo.id}`)}
             // onMouseEnter={() => {
             //   setOpenAuthOp(true);
             // }}
