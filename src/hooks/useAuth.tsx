@@ -97,8 +97,6 @@ export const useAuth = (): ReturnFunc => {
   }
 
   function addAddress(idUser: string, addresInfo: UserAddress) {
-    console.log("add address", addresInfo);
-
     const userIndex = authState?.usersStorage.findIndex(
       (u) => u.userInfo.id === idUser
     );
@@ -117,8 +115,6 @@ export const useAuth = (): ReturnFunc => {
     if (addresInfo.isDefault) {
       setDefaultAddress(addresInfo.idAddress);
     }
-
-    navigate(`/account/${authState?.state.userInfo.id}/addresses`);
   }
 
   function removeAddress(idAddress: string) {
@@ -180,8 +176,6 @@ export const useAuth = (): ReturnFunc => {
     if (addressInfo.isDefault) {
       setDefaultAddress(addressInfo.idAddress);
     }
-
-    navigate(`/account/${authState?.state.userInfo.id}/addresses`);
   }
 
   const setDefaultAddress = (idAddress: string) => {

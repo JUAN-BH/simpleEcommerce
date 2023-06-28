@@ -7,7 +7,10 @@ import { Orders } from "./Orders";
 import { SignIn } from "./SignIn";
 import { Header } from "../global/components/Header";
 import { Layout } from "../global/containers/Layout";
-import { ShoppingCartContextProvider } from "../contexts/shoppingCartState";
+import {
+  PrivateCheckout,
+  ShoppingCartContextProvider,
+} from "../contexts/shoppingCartState";
 import { GlobalStateProvider } from "../contexts/globalStateContext";
 import {
   AuthContextProvider,
@@ -20,6 +23,7 @@ import { AccountEdit } from "./AccountEdit";
 import { AccountAddresses } from "./AccountAddresses";
 import { NewAddress } from "./NewAddress";
 import { EditAddress } from "./EditAddress";
+import { CheckoutSuccess } from "./CheckoutSuccess";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
@@ -102,9 +106,17 @@ const AppRoutes = (): React.ReactElement | null => {
     {
       path: "/checkout",
       element: (
-        <PrivateRoute>
+        <PrivateCheckout>
           <Checkout />
-        </PrivateRoute>
+        </PrivateCheckout>
+      ),
+    },
+    {
+      path: "/checkout/success",
+      element: (
+        <PrivateCheckout>
+          <CheckoutSuccess />
+        </PrivateCheckout>
       ),
     },
     {

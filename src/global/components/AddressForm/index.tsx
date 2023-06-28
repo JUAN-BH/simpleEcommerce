@@ -90,6 +90,12 @@ export const AddressForm = ({
       isNewAddress
         ? addAddress(auhtState?.state.userInfo.id, addressInfo)
         : editAddress(values.idAddress, addressInfo);
+
+    if (location.search.includes("checkout")) {
+      navigate(`/checkout`);
+    } else {
+      navigate(`/account/${auhtState?.state.userInfo.id}/addresses`);
+    }
   };
 
   const handleOnCancel = () => {

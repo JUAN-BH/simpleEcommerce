@@ -11,7 +11,6 @@ export const AccountAddresses = () => {
       `/account/${authState?.state.userInfo.name}/addresses/add-address`
     );
   };
-  console.log(authState?.state.userAddresses);
   return (
     <section className="grid place-content-center gap-6 w-full px-6 pb-6 mx-auto md:grid-cols-2 md:place-items-center md:max-w-screen-xl md:mx-auto md:pt-6 lg:grid-cols-3 lg:gap-x-4">
       <article
