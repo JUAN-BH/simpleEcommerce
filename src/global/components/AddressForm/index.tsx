@@ -88,7 +88,7 @@ export const AddressForm = ({
     };
     if (auhtState?.state.userInfo.id)
       isNewAddress
-        ? addAddress(auhtState?.state.userInfo.id, addressInfo)
+        ? addAddress(addressInfo)
         : editAddress(values.idAddress, addressInfo);
 
     if (location.search.includes("checkout")) {

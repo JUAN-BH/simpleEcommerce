@@ -1,38 +1,47 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/auth";
-import { User, UserAddress, UsersLS } from "../ts/models/auth.model";
+import { Orders, User, UserAddress, UsersLS } from "../ts/models/auth.model";
 import { generateId } from "../utils/idGenerator";
+import { useShoppingCartContext } from "../contexts/shoppingCartState";
+import { dateGenerator } from "../utils/dateGenerator";
 
 interface ReturnFunc {
   signIn: (userInfo: User) => void;
   login: (userEmail: string, userPassword: string) => void;
   logout: () => void;
-  addAddress: (idUser: string, addressInfo: UserAddress) => void;
-  editUser: (idUser: string, newName: string, newPassword: string) => void;
+  addAddress: (addressInfo: UserAddress) => void;
+  editUser: (newName: string, newPassword: string) => void;
   removeAddress: (idAddress: string) => void;
   editAddress: (idAddress: string, addressInfo: UserAddress) => void;
   setDefaultAddress: (idAddress: string) => void;
+  addOrder: () => void;
 }
 
 export const useAuth = (): ReturnFunc => {
+  const SCState = useShoppingCartContext();
   const navigate = useNavigate();
   const location = useLocation();
   const authState = useAuthContext();
 
+  const currentUserId = authState?.state.userInfo.id || "";
+  const usersInLs = authState?.usersStorage || [];
+  const userIndex =
+    usersInLs.findIndex((u) => u.userInfo.id === currentUserId) || 0;
+
   function signIn(userInfo: User) {
     const newUser: UsersLS = {
-      userInfo: {
-        id: generateId(),
-        ...userInfo,
-      },
+      userInfo,
       userOrthers: [],
       userAddress: [],
     };
 
-    authState?.usersStorage.push(newUser);
+    usersInLs.push(newUser);
 
-    localStorage.setItem("users", JSON.stringify(authState?.usersStorage));
-    authState?.dispatch({ type: "SIGN_IN", payload: { userInfo: userInfo } });
+    localStorage.setItem("users", JSON.stringify(usersInLs));
+    authState?.dispatch({
+      type: "SIGN_IN",
+      payload: { userInfo: newUser.userInfo },
+    });
     authState?.dispatch({
       type: "LOGIN_SUCCESS",
       payload: {
@@ -74,38 +83,56 @@ export const useAuth = (): ReturnFunc => {
     navigate("/");
   }
 
-  function editUser(id: string, name: string, password: string): void {
-    const userIndex = authState?.usersStorage.findIndex(
-      (u) => u.userInfo.id === id
-    );
+  function editUser(name: string, password: string): void {
+    const currentUser = authState?.state.userInfo as User;
+    let newName = currentUser.name;
+    let newPass = currentUser.password;
 
     if (name !== "") {
-      const userInfo = authState?.state.userInfo;
-      const userStorageInfo =
-        authState?.usersStorage[userIndex as number]?.userInfo;
-      userInfo && (userInfo.name = name);
+      newName = name;
+      const userStorageInfo = usersInLs[userIndex as number].userInfo;
       userStorageInfo && (userStorageInfo.name = name);
     } else if (password !== "") {
-      const userInfo = authState?.state.userInfo;
-      const userStorageInfo =
-        authState?.usersStorage[userIndex as number]?.userInfo;
-      userInfo && (userInfo.password = password);
+      newPass = password;
+      const userStorageInfo = usersInLs[userIndex as number].userInfo;
       userStorageInfo && (userStorageInfo.password = password);
     }
 
-    localStorage.setItem("users", JSON.stringify(authState?.usersStorage));
+    const newUserInfo = {
+      ...currentUser,
+      name: newName,
+      password: newPass,
+    };
+
+    authState?.dispatch({
+      type: "EDIT_USER",
+      payload: { userInfo: newUserInfo },
+    });
+    localStorage.setItem("users", JSON.stringify(usersInLs));
+    sessionStorage.setItem(
+      "userLogged",
+      JSON.stringify(usersInLs[userIndex as number])
+    );
   }
 
-  function addAddress(idUser: string, addresInfo: UserAddress) {
-    const userIndex = authState?.usersStorage.findIndex(
-      (u) => u.userInfo.id === idUser
+  function addAddress(addresInfo: UserAddress) {
+    const currentUserId = authState?.state.userInfo.id || "";
+    const usersInLs = authState?.usersStorage || [];
+    const userIndex =
+      usersInLs.findIndex((u) => u.userInfo.id === currentUserId) || 0;
+    console.log(
+      "🚀 ~ file: useAuth.tsx:120 ~ addAddress ~ addresInfo:",
+      addresInfo
     );
-
-    authState?.usersStorage[userIndex as number].userAddress.push(addresInfo);
+    usersInLs[userIndex as number].userAddress.push(addresInfo);
+    console.log(
+      "🚀 ~ file: useAuth.tsx:122 ~ addAddress ~ usersInLs:",
+      usersInLs[userIndex as number]
+    );
     localStorage.setItem("users", JSON.stringify(authState?.usersStorage));
     sessionStorage.setItem(
       "userLogged",
-      JSON.stringify(authState?.usersStorage[userIndex as number])
+      JSON.stringify(usersInLs[userIndex as number])
     );
     authState?.dispatch({
       type: "ADD_ADDRESS",
@@ -118,11 +145,6 @@ export const useAuth = (): ReturnFunc => {
   }
 
   function removeAddress(idAddress: string) {
-    const usersInLs = authState?.usersStorage;
-    const currentUserId = authState?.state.userInfo.id;
-    const userIndex = authState?.usersStorage.findIndex(
-      (u) => u.userInfo.id === currentUserId
-    );
     const newAddresses = authState?.state.userAddresses.filter(
       (a) => a.idAddress !== idAddress
     );
@@ -144,12 +166,6 @@ export const useAuth = (): ReturnFunc => {
   }
 
   function editAddress(idAddress: string, addressInfo: UserAddress) {
-    const usersInLs = authState?.usersStorage;
-    const userId = authState?.state.userInfo.id;
-    const userIndex = authState?.usersStorage.findIndex(
-      (u) => u.userInfo.id === userId
-    );
-
     const addresIndex = authState?.state.userAddresses.findIndex(
       (a) => a.idAddress === idAddress
     );
@@ -179,12 +195,6 @@ export const useAuth = (): ReturnFunc => {
   }
 
   const setDefaultAddress = (idAddress: string) => {
-    const usersInLs = authState?.usersStorage;
-    const userId = authState?.state.userInfo.id;
-    const userIndex = authState?.usersStorage.findIndex(
-      (u) => u.userInfo.id === userId
-    );
-
     const userAddress = authState?.state.userAddresses;
     if (userAddress && usersInLs) {
       const newAddresses = userAddress.reduce((acc, address) => {
@@ -213,6 +223,26 @@ export const useAuth = (): ReturnFunc => {
     }
   };
 
+  const addOrder = () => {
+    const productsInCart = SCState?.state.productsInCart || [];
+    const order: Orders = {
+      idOrder: generateId(),
+      name: dateGenerator(),
+      products: productsInCart,
+    };
+    authState?.dispatch({ type: "ADD_ORDER", payload: { order } });
+    usersInLs[userIndex as number].userOrthers.push(order);
+    localStorage.setItem("users", JSON.stringify(usersInLs));
+    sessionStorage.setItem(
+      "userLogged",
+      JSON.stringify(usersInLs[userIndex as number])
+    );
+    navigate("/checkout/success");
+    setTimeout(() => {
+      SCState?.dispatch({ type: "CLEAR_CART" });
+    }, 3000);
+  };
+
   return {
     signIn,
     login,
@@ -222,5 +252,6 @@ export const useAuth = (): ReturnFunc => {
     removeAddress,
     editAddress,
     setDefaultAddress,
+    addOrder,
   };
 };

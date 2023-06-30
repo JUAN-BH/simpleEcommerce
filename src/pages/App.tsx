@@ -72,7 +72,7 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/order/:orderId",
+      path: "/account/:idUser/order/:orderId",
       element: (
         <PrivateRoute>
           <Order />
@@ -80,7 +80,7 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/orders",
+      path: "/account/:idUser/orders",
       element: (
         <PrivateRoute>
           <Orders />

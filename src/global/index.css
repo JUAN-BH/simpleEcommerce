@@ -20,10 +20,16 @@
 
 .accountItem {
   @apply flex items-center gap-2 w-full py-5 px-4 border rounded-md shadow-sm cursor-pointer;
+  @apply duration-150 ease-in-out hover:-translate-y-[2px] hover:shadow-md active:translate-y-0 active:shadow-sm;
 }
 
 .addressItem {
   @apply flex flex-col w-80 h-64 border-2 rounded-md bg-white;
+}
+
+.orderItem {
+  @apply flex items-center justify-between p-4 border rounded-md shadow-sm w-4/5 cursor-pointer lg:w-2/5;
+  @apply duration-150 ease-in-out hover:-translate-y-[2px] hover:shadow-md active:translate-y-0 active:shadow-sm;
 }
 
 .hamburger-react {

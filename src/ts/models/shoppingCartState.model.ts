@@ -23,6 +23,7 @@ export interface MySCAction {
     | "ADD_PRODUCT_TO_CART"
     | "ADD_PRODUCT_QTY"
     | "REMOVE_ITEM"
+    | "CLEAR_CART"
     | "OPEN_CART"
     | "CLOSE_CART";
   payload?: ProductOnDisplay | ProductInCart | ProductInCart[];

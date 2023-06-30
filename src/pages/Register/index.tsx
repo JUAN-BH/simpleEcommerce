@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { User } from "../../ts/models/auth.model";
 import { useAuth } from "../../hooks/useAuth";
 import { useAuthContext } from "../../contexts/auth";
+import { generateId } from "../../utils/idGenerator";
 
 interface RegisterValues {
   userName: string;
@@ -57,6 +58,7 @@ export const Register = () => {
   const handleSubmit = (values: RegisterValues) => {
     console.log(values);
     const userInfo: User = {
+      id: generateId(),
       name: values.userName,
       email: values.userEmail,
       password: values.userPassword,

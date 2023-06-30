@@ -62,7 +62,7 @@ export function authReducer(state: InitalAuthState, action: AuthAction) {
         userAddresses: [] as UserAddress[],
       };
 
-    case "ADD_OTHER":
+    case "ADD_ORDER":
       return payload && payload.order
         ? {
             ...state,

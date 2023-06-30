@@ -1,3 +1,5 @@
+import { ProductInCart } from "../dtos/shoppingCartState.dto";
+
 export interface User {
   id?: string;
   name?: string;
@@ -19,7 +21,9 @@ export interface UserAddress {
 }
 
 export interface Orders {
+  idOrder: string;
   name: string;
+  products: ProductInCart[];
 }
 
 export interface UsersLS {
@@ -42,7 +46,7 @@ export interface AuthAction {
     | "LOGIN_SUCCESS"
     | "LOGOUT"
     | "EDIT_USER"
-    | "ADD_OTHER"
+    | "ADD_ORDER"
     | "ADD_ADDRESS"
     | "REMOVE_ADDRESS"
     | "EDIT_ADDRESS";

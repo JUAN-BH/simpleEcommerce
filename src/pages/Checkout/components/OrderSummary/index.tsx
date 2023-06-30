@@ -1,10 +1,7 @@
 import { useShoppingCartContext } from "../../../../contexts/shoppingCartState";
 import { ProductInCart } from "../../../../ts/dtos/shoppingCartState.dto";
 
-type PropTypes = Pick<
-  ProductInCart,
-  "id" | "images" | "price" | "qty" | "title"
->;
+type PropTypes = Pick<ProductInCart, "images" | "price" | "qty" | "title">;
 
 export const OrderSummary = () => {
   const SCState = useShoppingCartContext();
@@ -25,7 +22,6 @@ export const OrderSummary = () => {
               price={p.price}
               qty={p.qty}
               images={p.images}
-              id={p.id}
             />
           ))
         ) : (
@@ -39,7 +35,7 @@ export const OrderSummary = () => {
   );
 };
 
-const SumaryItem = ({ id, images, title, price, qty }: PropTypes) => {
+const SumaryItem = ({ images, title, price, qty }: PropTypes) => {
   return (
     <div>
       <article className="flex items-center justify-between mb-5">

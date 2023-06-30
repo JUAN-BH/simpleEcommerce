@@ -9,21 +9,28 @@ export const Account = (): JSX.Element => {
   const authState = useAuthContext();
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const userId = authState?.state.userInfo.id || "";
 
   const editAccount = () => {
-    navigate(`/account/${authState?.state.userInfo.id}/edit`);
+    navigate(`/account/${userId}/edit`);
   };
 
   const goToAddresses = () => {
-    navigate(`/account/${authState?.state.userInfo.id}/addresses`);
+    navigate(`/account/${userId}/addresses`);
+  };
+
+  const goToOrders = () => {
+    navigate(`/account/${userId}/orders`);
   };
   const logOut = () => {
     logout();
   };
 
+  console.log(authState?.state.userInfo);
+
   return (
     <section className="flex flex-col items-center gap-5 md:mt-5">
-      <article className="accountItem">
+      <article onClick={goToOrders} className="accountItem">
         <figure className="w-14 h-14 rounded-full shadow-md">
           <img src={ordersImg} alt="Orders image" />
         </figure>

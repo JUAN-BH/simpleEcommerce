@@ -15,7 +15,7 @@ export const AccountEdit = () => {
   };
 
   const hanldeEditUser = () => {
-    if (userId) editUser(userId, newName, newPassword);
+    if (userId) editUser(newName, newPassword);
     navigate(`/account/${userId}`);
   };
 

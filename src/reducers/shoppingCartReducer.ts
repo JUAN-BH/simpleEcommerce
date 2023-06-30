@@ -90,6 +90,11 @@ export const reducerSC = (state: InitalSCstate, action: MySCAction) => {
           ...state,
         };
       }
+    case "CLEAR_CART":
+      return {
+        ...state,
+        productsInCart: [],
+      };
     default:
       return {
         ...state,

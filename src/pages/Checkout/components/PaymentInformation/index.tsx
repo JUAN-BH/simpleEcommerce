@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../../hooks/useAuth";
 
 export const PaymentInformation = () => {
-  const navigate = useNavigate();
+  const { addOrder } = useAuth();
+
   return (
     <section className="w-full p-4 max-w-screen-xl mx-auto">
       <h2 className="text-xl font-semibold">Payment Information</h2>
@@ -31,10 +32,7 @@ export const PaymentInformation = () => {
             </div>
           </div>
         </form>
-        <button
-          className="btn w-full block mx-auto mt-8"
-          onClick={() => navigate("/checkout/success")}
-        >
+        <button className="btn w-full block mx-auto mt-8" onClick={addOrder}>
           Place order
         </button>
       </article>
