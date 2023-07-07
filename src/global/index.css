@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .pd {
-  @apply flex flex-col fixed top-[65px] z-10 right-0 shadow-lg border border-black/10 bg-white rounded-lg rounded-e-none w-full  md:w-[500px] p-4 h-[calc(100vh-64.8px)] transition-all duration-500 ease-in-out;
+  @apply flex flex-col fixed top-[65px] z-10 right-0 shadow-lg border border-black/10 bg-white rounded-lg rounded-e-none w-full  md:w-[500px] p-4 pb-6 h-[calc(100vh-64.8px)] transition-all duration-500 ease-in-out;
 }
 
 .btn {
@@ -37,7 +37,7 @@
 }
 
 .orderItem {
-  @apply flex items-center justify-between p-4 border rounded-md shadow-sm w-4/5 cursor-pointer lg:w-2/5;
+  @apply flex items-center justify-between py-4 px-2 border rounded-md shadow-sm w-full cursor-pointer lg:w-2/5;
   @apply duration-150 ease-in-out hover:-translate-y-[2px] hover:shadow-md active:translate-y-0 active:shadow-sm;
 }
 

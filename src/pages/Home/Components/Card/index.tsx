@@ -67,7 +67,7 @@ export const Card = ({
         <img className="w-full h-full object-cover" src={img} alt={title} />
         <div
           id="addProduct"
-          className={`absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full text-center w-7 h-7 p-2 ${
+          className={`absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full text-center w-8 h-w-8 p-2 ${
             inCart ? "bg-green-500" : "bg-white"
           } `}
         >

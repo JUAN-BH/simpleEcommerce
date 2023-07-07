@@ -1,3 +1,4 @@
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useShoppingCartContext } from "../../../../contexts/shoppingCartState";
 
 export const ProductDetail = () => {
@@ -21,7 +22,9 @@ export const ProductDetail = () => {
           onClick={handleOnCloseDetail}
           className="cursor-pointer rounded-full bg-white border border-black/10 w-8 h-8 shadow-lg"
         >
-          <span className="block mb-1">x</span>
+          <span className="flex justify-center">
+            <XMarkIcon className="w-6 h-6" />
+          </span>
         </button>
       </div>
       <figure className="w-full h-80 rounded-md overflow-hidden my-5">

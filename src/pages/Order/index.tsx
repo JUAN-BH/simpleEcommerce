@@ -13,7 +13,7 @@ export const Order = (): JSX.Element => {
     .map((p) => p.price)
     .reduce((a, b) => a + b, 0);
   return (
-    <section className="flex flex-col w-full px-6 max-w-screen-xl mx-auto">
+    <section className="flex flex-col w-full px-6 max-w-screen-xl mx-auto pb-6">
       <article className="flex items-center gap-4 mb-3">
         <BackBtnAccount
           to={`/account/${authState?.state.userInfo.id}/orders`}

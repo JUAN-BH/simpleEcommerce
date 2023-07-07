@@ -8,7 +8,7 @@ export const Orders = (): JSX.Element => {
   const authState = useAuthContext();
   const userOrders = authState?.state.userOrthers || [];
   return (
-    <section className="w-full max-w-screen-xl mx-auto px-6">
+    <section className="w-full max-w-screen-xl mx-auto px-4">
       <div className="flex items-center gap-4 mb-8">
         <BackBtnAccount />
         <h2 className="text-xl font-semibold">Your orders</h2>
@@ -58,7 +58,7 @@ const OrderItem = ({
   };
   return (
     <div className="orderItem" onClick={goToOrder}>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-2 w-11/12">
         <p className="font-semibold p-2 bg-gray-100 rounded-md">
           Order# <span className="font-normal">{id}</span>{" "}
         </p>
@@ -69,7 +69,7 @@ const OrderItem = ({
           Total: <span className="font-normal">${total}</span>{" "}
         </p>
       </div>
-      <ChevronRightIcon className="h-5 w-5 text-green-500" />
+      <ChevronRightIcon className="h-5 text-green-500 w-2/12" />
     </div>
   );
 };

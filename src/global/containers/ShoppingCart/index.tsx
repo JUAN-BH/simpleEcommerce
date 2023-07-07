@@ -53,8 +53,8 @@ export const ShoppingCart = () => {
             type="button"
             className="cursor-pointer rounded-full bg-white border border-black/10 w-8 h-8 shadow-md"
           >
-            <span className="flex justify-center mb-1">
-              <XMarkIcon className="w-6 h-6 mt-1" />
+            <span className="flex justify-center">
+              <XMarkIcon className="w-6 h-6" />
             </span>
           </button>
         </article>
