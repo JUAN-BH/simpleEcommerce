@@ -19,7 +19,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
   const [state, dispatch] = useReducer(authReducer, initalAuthState);
   const [usersStorage, setUsersStorage] = useState<UsersLS[]>([]);
 
-  //*Trae o crea los usuarios en localStorage
+  //Trae o crea los usuarios en localStorage
   useEffect(() => {
     setUsersStorage(JSON.parse(localStorage.getItem("users") || "[]"));
     if (!Array.isArray(usersStorage)) {
@@ -27,8 +27,10 @@ export function AuthContextProvider({ children }: ChildrenProps) {
     } else {
       setUsersStorage(JSON.parse(localStorage.getItem("users") || "[]"));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  //*Retiene el usuario logeado
+
+  //Retiene el usuario logeado
   useEffect(() => {
     const userLogged: UsersLS = JSON.parse(
       localStorage.getItem("userLogged") || "{}"
@@ -53,12 +55,13 @@ export function AuthContextProvider({ children }: ChildrenProps) {
     <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
   );
 }
+// Custom hook of AuthContext
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAuthContext() {
   const authState = useContext(AuthContext);
   if (authState) return authState;
 }
-
+// Authentication component
 export function PrivateRoute({ children }: ChildrenProps) {
   const authState = useAuthContext();
   const location = useLocation();
@@ -75,7 +78,7 @@ export function PrivateRoute({ children }: ChildrenProps) {
   }
   return children;
 }
-
+// Private component when the user is logged
 export function PrivateOnAuth({ children }: ChildrenProps) {
   const authState = useAuthContext();
 

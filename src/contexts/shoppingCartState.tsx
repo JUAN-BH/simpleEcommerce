@@ -31,7 +31,7 @@ export function useShoppingCartContext() {
   const dataState = useContext(ShoppingCartContext);
   if (dataState) return dataState;
 }
-
+//Private component when cart is empty
 export function PrivateCheckout({ children }: ChildrenProps) {
   const SCState = useShoppingCartContext();
   const authState = useAuthContext();

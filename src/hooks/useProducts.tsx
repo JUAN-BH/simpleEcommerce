@@ -8,13 +8,13 @@ const useProducts = (category = "") => {
   const location = useLocation();
   const navigate = useNavigate();
   const globalState = useGlobalState();
-  //All products from API
+  //All products from API so i can filter all of them
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  //Products per page
+  //Products per page, limited to 12
   const [productsPerPage, setProductsPerPage] = useState<Product[]>([]);
-  //Current page
+  //Products to display
   const [products, setProducts] = useState<Product[]>([]);
-  //Pages
+  //Current page
   const [currentPage, setCurrentPage] = useState<number>(1);
   //Total of pages
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -74,6 +74,7 @@ const useProducts = (category = "") => {
   useEffect(() => {
     fetchAllProducts();
     fetchProductsPerPage(currentPage * limit);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, category]);
 
   function filterProducts(name: string) {
