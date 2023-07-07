@@ -24,12 +24,17 @@ import { AccountAddresses } from "./AccountAddresses";
 import { NewAddress } from "./NewAddress";
 import { EditAddress } from "./EditAddress";
 import { CheckoutSuccess } from "./CheckoutSuccess";
+import { Category } from "./Category";
 
 const AppRoutes = (): React.ReactElement | null => {
   const routes = useRoutes([
     {
       path: "/",
       element: <Home />,
+    },
+    {
+      path: "/category/:idCategory",
+      element: <Category />,
     },
     {
       path: "/account/:idUser",
@@ -112,11 +117,11 @@ const AppRoutes = (): React.ReactElement | null => {
       ),
     },
     {
-      path: "/checkout/success",
+      path: "/checkout/order-success",
       element: (
-        <PrivateCheckout>
+        <PrivateRoute>
           <CheckoutSuccess />
-        </PrivateCheckout>
+        </PrivateRoute>
       ),
     },
     {

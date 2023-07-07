@@ -12,10 +12,15 @@ interface AddressProps {
   onSelect: (addressId: string) => void;
 }
 
-export const ShippingAddress = () => {
+export const ShippingAddress = ({
+  isSelected,
+  setIsSelected,
+}: {
+  isSelected: string;
+  setIsSelected(addressId: string): void;
+}) => {
   const navigate = useNavigate();
   const authState = useAuthContext();
-  const [isSelected, setIsSelected] = useState<string>("");
   const userAddresses = authState?.state.userAddresses || [];
   const memoizedUserAddresses = useMemo(() => userAddresses, [userAddresses]);
   const goAddAddress = () => {
@@ -51,30 +56,32 @@ export const ShippingAddress = () => {
           </button>
         </div>
       ) : (
-        <article className="flex flex-col rounded-md shadow-sm border">
-          {memoizedUserAddresses
-            .filter((add, index, self) => {
-              return (
-                index ===
-                self.findIndex((item) => item.idAddress === add.idAddress)
-              );
-            })
-            .map((address) => (
-              <AddressSummaryItem
-                key={address.idAddress}
-                idAddress={address.idAddress}
-                name={address.name}
-                address={address.address}
-                city={address.city}
-                isSelected={address.idAddress === isSelected}
-                onSelect={handleAddressSelection}
-              />
-            ))}
-        </article>
+        <>
+          <article className="flex flex-col rounded-md shadow-sm border">
+            {memoizedUserAddresses
+              .filter((add, index, self) => {
+                return (
+                  index ===
+                  self.findIndex((item) => item.idAddress === add.idAddress)
+                );
+              })
+              .map((address) => (
+                <AddressSummaryItem
+                  key={address.idAddress}
+                  idAddress={address.idAddress}
+                  name={address.name}
+                  address={address.address}
+                  city={address.city}
+                  isSelected={address.idAddress === isSelected}
+                  onSelect={handleAddressSelection}
+                />
+              ))}
+          </article>
+          <button className="mt-4 btn" onClick={goAddAddress}>
+            Add new address
+          </button>
+        </>
       )}
-      <button className="mt-4 btn" onClick={goAddAddress}>
-        Add new address
-      </button>
     </section>
   );
 };
@@ -93,7 +100,7 @@ function AddressSummaryItem({
   return (
     <label
       id="addressSelect"
-      className="flex items-center gap-4 w-full py-3 px-4 border-b"
+      className="flex items-center gap-4 w-full py-3 px-4 border-b cursor-pointer"
     >
       <input
         name="addressSelect"

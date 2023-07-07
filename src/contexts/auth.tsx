@@ -31,7 +31,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
   //*Retiene el usuario logeado
   useEffect(() => {
     const userLogged: UsersLS = JSON.parse(
-      sessionStorage.getItem("userLogged") || "{}"
+      localStorage.getItem("userLogged") || "{}"
     );
     if (userLogged) {
       dispatch({
@@ -43,7 +43,7 @@ export function AuthContextProvider({ children }: ChildrenProps) {
         },
       });
     } else {
-      sessionStorage.setItem("userLogged", JSON.stringify({}));
+      localStorage.setItem("userLogged", JSON.stringify(userLogged));
     }
   }, []);
 
@@ -64,7 +64,7 @@ export function PrivateRoute({ children }: ChildrenProps) {
   const location = useLocation();
 
   const userLogged: UsersLS = JSON.parse(
-    sessionStorage.getItem("userLogged") || "{}"
+    localStorage.getItem("userLogged") || "{}"
   );
 
   if (
@@ -80,7 +80,7 @@ export function PrivateOnAuth({ children }: ChildrenProps) {
   const authState = useAuthContext();
 
   const userLogged: UsersLS = JSON.parse(
-    sessionStorage.getItem("userLogged") || "{}"
+    localStorage.getItem("userLogged") || "{}"
   );
 
   if (authState?.state.userInfo.name && userLogged.userInfo.name) {

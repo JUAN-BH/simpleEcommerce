@@ -1,6 +1,6 @@
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
-import { Product } from "../../../ts/models/product.model";
+import { useShoppingCartContext } from "../../../../contexts/shoppingCartState";
+import { Product } from "../../../../ts/models/product.model";
 
 type CardProps = Pick<
   Product,
@@ -34,11 +34,18 @@ export const Card = ({
     }
   };
 
+  const hanldeRemoveItem = () => {
+    const newItems = SCState?.state.productsInCart.filter((p) => p.id !== id);
+    SCState?.dispatch({ type: "REMOVE_ITEM", payload: newItems });
+  };
+
   const handleProduct: React.MouseEventHandler<HTMLElement> = (e) => {
     const element = e.target as HTMLElement;
 
     if (element.id == "addProduct") {
       addProduct();
+    } else if (element.id == "removeProduct") {
+      hanldeRemoveItem();
     } else {
       SCState?.dispatch({
         type: "PRODUCT_TO_DISPLAY",
@@ -60,14 +67,14 @@ export const Card = ({
         <img className="w-full h-full object-cover" src={img} alt={title} />
         <div
           id="addProduct"
-          className={`absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full  text-center w-7 h-7 p-2 ${
+          className={`absolute cursor-pointer top-0 right-0 m-2 flex justify-center items-center rounded-full text-center w-7 h-7 p-2 ${
             inCart ? "bg-green-500" : "bg-white"
           } `}
         >
           {inCart ? (
-            <CheckIcon className="w-7 h-7" id="addProduct" />
+            <CheckIcon className="w-full h-full" id="removeProduct" />
           ) : (
-            <PlusIcon className="w-7 h-7" id="addProduct" />
+            <PlusIcon className="w-full h-full" id="addProduct" />
           )}
         </div>
       </figure>

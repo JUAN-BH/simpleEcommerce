@@ -1,11 +1,13 @@
+import { useParams } from "react-router-dom";
 import { useGlobalState } from "../../contexts/globalStateContext";
-import { Card } from "./Components/Card";
 import { FilterProducts } from "../../global/components/FilterProducts";
 import { Loader } from "../../global/components/Loader";
 import useProducts from "../../hooks/useProducts";
-import { ProductDetail } from "./Components/ProductDetail";
+import { Card } from "../Home/Components/Card";
+import { ProductDetail } from "../Home/Components/ProductDetail";
 
-export const Home = (): JSX.Element => {
+export const Category = () => {
+  const { idCategory } = useParams();
   const {
     products,
     filterProducts,
@@ -13,7 +15,7 @@ export const Home = (): JSX.Element => {
     totalPages,
     goToPage,
     pagesOn,
-  } = useProducts();
+  } = useProducts(idCategory);
   const globalState = useGlobalState();
   const isLoading = globalState?.state.loading || false;
 
@@ -25,7 +27,6 @@ export const Home = (): JSX.Element => {
   const nextPage = () => {
     goToPage(currentPage + 1);
   };
-
   return (
     <>
       <ProductDetail />

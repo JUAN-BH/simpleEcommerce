@@ -14,7 +14,7 @@ interface ReturnFunc {
   removeAddress: (idAddress: string) => void;
   editAddress: (idAddress: string, addressInfo: UserAddress) => void;
   setDefaultAddress: (idAddress: string) => void;
-  addOrder: () => void;
+  addOrder: (addressSelected: UserAddress) => void;
 }
 
 export const useAuth = (): ReturnFunc => {
@@ -60,7 +60,7 @@ export const useAuth = (): ReturnFunc => {
     );
 
     if (userFound) {
-      sessionStorage.setItem("userLogged", JSON.stringify(userFound));
+      localStorage.setItem("userLogged", JSON.stringify(userFound));
       authState?.dispatch({
         type: "LOGIN_SUCCESS",
         payload: {
@@ -79,7 +79,7 @@ export const useAuth = (): ReturnFunc => {
   }
   function logout() {
     authState?.dispatch({ type: "LOGOUT" });
-    sessionStorage.removeItem("userLogged");
+    localStorage.removeItem("userLogged");
     navigate("/");
   }
 
@@ -109,7 +109,7 @@ export const useAuth = (): ReturnFunc => {
       payload: { userInfo: newUserInfo },
     });
     localStorage.setItem("users", JSON.stringify(usersInLs));
-    sessionStorage.setItem(
+    localStorage.setItem(
       "userLogged",
       JSON.stringify(usersInLs[userIndex as number])
     );
@@ -120,17 +120,9 @@ export const useAuth = (): ReturnFunc => {
     const usersInLs = authState?.usersStorage || [];
     const userIndex =
       usersInLs.findIndex((u) => u.userInfo.id === currentUserId) || 0;
-    console.log(
-      "🚀 ~ file: useAuth.tsx:120 ~ addAddress ~ addresInfo:",
-      addresInfo
-    );
     usersInLs[userIndex as number].userAddress.push(addresInfo);
-    console.log(
-      "🚀 ~ file: useAuth.tsx:122 ~ addAddress ~ usersInLs:",
-      usersInLs[userIndex as number]
-    );
     localStorage.setItem("users", JSON.stringify(authState?.usersStorage));
-    sessionStorage.setItem(
+    localStorage.setItem(
       "userLogged",
       JSON.stringify(usersInLs[userIndex as number])
     );
@@ -158,7 +150,7 @@ export const useAuth = (): ReturnFunc => {
     }
     localStorage.setItem("users", JSON.stringify(usersInLs));
     if (usersInLs)
-      sessionStorage.setItem(
+      localStorage.setItem(
         "userLogged",
         JSON.stringify(usersInLs[userIndex as number])
       );
@@ -184,7 +176,7 @@ export const useAuth = (): ReturnFunc => {
     }
     localStorage.setItem("users", JSON.stringify(usersInLs));
     if (usersInLs)
-      sessionStorage.setItem(
+      localStorage.setItem(
         "userLogged",
         JSON.stringify(usersInLs[userIndex as number])
       );
@@ -216,31 +208,30 @@ export const useAuth = (): ReturnFunc => {
 
       usersInLs[userIndex as number].userAddress = newAddresses;
       localStorage.setItem("users", JSON.stringify(usersInLs));
-      sessionStorage.setItem(
+      localStorage.setItem(
         "userLogged",
         JSON.stringify(usersInLs[userIndex as number])
       );
     }
   };
 
-  const addOrder = () => {
+  const addOrder = (addressSelected: UserAddress) => {
     const productsInCart = SCState?.state.productsInCart || [];
     const order: Orders = {
       idOrder: generateId(),
       name: dateGenerator(),
       products: productsInCart,
+      addressShipment: addressSelected,
     };
     authState?.dispatch({ type: "ADD_ORDER", payload: { order } });
     usersInLs[userIndex as number].userOrthers.push(order);
     localStorage.setItem("users", JSON.stringify(usersInLs));
-    sessionStorage.setItem(
+    localStorage.setItem(
       "userLogged",
       JSON.stringify(usersInLs[userIndex as number])
     );
-    navigate("/checkout/success");
-    setTimeout(() => {
-      SCState?.dispatch({ type: "CLEAR_CART" });
-    }, 3000);
+    SCState?.dispatch({ type: "CLEAR_CART" });
+    navigate("/checkout/order-success");
   };
 
   return {

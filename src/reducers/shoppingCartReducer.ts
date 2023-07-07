@@ -54,7 +54,7 @@ export const reducerSC = (state: InitalSCstate, action: MySCAction) => {
       if (action.payload) {
         return {
           ...state,
-          cart: true,
+          // cart: false,
           detail: false,
           productsInCart: [
             ...state.productsInCart,

@@ -24,6 +24,7 @@ export interface Orders {
   idOrder: string;
   name: string;
   products: ProductInCart[];
+  addressShipment: UserAddress;
 }
 
 export interface UsersLS {

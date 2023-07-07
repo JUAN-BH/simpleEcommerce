@@ -2,16 +2,14 @@ import { ShoppingCartIcon, UserIcon } from "@heroicons/react/24/outline";
 import { NavProps } from "../..";
 import { NavItem } from "../../../NavItem";
 import { useNavigate } from "react-router-dom";
+import { useCategories } from "../../../../../hooks/useCategories";
 // import { NavADOptions } from "../NavADOptions";
 
-export const NavDesk = ({
-  commonRoutes,
-  authState,
-  itemsCart,
-  handleOpenCart,
-}: NavProps) => {
+export const NavDesk = ({ authState, itemsCart, handleOpenCart }: NavProps) => {
   // const [openAuthOp, setOpenAuthOp] = useState<boolean>(false);
   const navigate = useNavigate();
+  const categories = useCategories();
+
   const goSignIn = () => {
     navigate("/signin");
   };
@@ -26,13 +24,22 @@ export const NavDesk = ({
             </h1>
           </NavItem>
         </li>
-        {commonRoutes.map((route) => (
-          <li key={route.to}>
+        <li>
+          <NavItem
+            to={`/`}
+            style="decoration-green-500 decoration-2 underline underline-offset-4"
+          >
+            All
+          </NavItem>
+        </li>
+
+        {categories.slice(0, 5).map((route) => (
+          <li key={route.id}>
             <NavItem
-              to={route.to}
-              style="underline underline-offset-4 decoration-green-500"
+              to={`category/${route.id}`}
+              style="decoration-green-500 decoration-2 underline underline-offset-4"
             >
-              {route.text}
+              {route.name}
             </NavItem>
           </li>
         ))}
@@ -72,7 +79,7 @@ export const NavDesk = ({
           onClick={handleOpenCart}
         >
           <ShoppingCartIcon
-            className={`w-7 h-7 mr-1 text-green-500 ${
+            className={`w-7 h-7 mr-1 text-green-500 hover:shadow-green-600/50 ${
               itemsCart?.length && "fill-green-500"
             }`}
           />

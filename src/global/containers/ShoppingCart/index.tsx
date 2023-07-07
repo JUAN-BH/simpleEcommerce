@@ -3,6 +3,7 @@ import { useShoppingCartContext } from "../../../contexts/shoppingCartState";
 import { ProductInCart } from "../../../ts/dtos/shoppingCartState.dto";
 import { CartItem } from "../../components/CartItem";
 import { useGlobalState } from "../../../contexts/globalStateContext";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export const ShoppingCart = () => {
   const navigate = useNavigate();
@@ -50,9 +51,11 @@ export const ShoppingCart = () => {
           <button
             onClick={handleCloseCart}
             type="button"
-            className="cursor-pointer rounded-full bg-white border border-black/10 w-8 h-8 shadow-lg"
+            className="cursor-pointer rounded-full bg-white border border-black/10 w-8 h-8 shadow-md"
           >
-            <span className="block mb-1">x</span>
+            <span className="flex justify-center mb-1">
+              <XMarkIcon className="w-6 h-6 mt-1" />
+            </span>
           </button>
         </article>
 

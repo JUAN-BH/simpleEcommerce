@@ -1,4 +1,4 @@
-import { commonRoutes } from "../../../../../utils/routes";
+import { useCategories } from "../../../../../hooks/useCategories";
 import { NavItem } from "../../../NavItem";
 
 interface PropTypes {
@@ -7,6 +7,8 @@ interface PropTypes {
 }
 
 export const NavCMOptions = ({ isOpen, setOpen }: PropTypes) => {
+  const categories = useCategories();
+
   return (
     <section className="fixed top-0 left-0 w-full">
       <div
@@ -27,9 +29,12 @@ export const NavCMOptions = ({ isOpen, setOpen }: PropTypes) => {
         </div>
         <div className="flex flex-col gap-4 mt-4 px-5">
           <h2 className="text-xl font-semibold">Categories</h2>
-          {commonRoutes.map((route) => (
-            <NavItem to={route.to} key={route.to}>
-              <p onClick={() => setOpen(!isOpen)}>{route.text}</p>
+          <NavItem to={`/`}>
+            <p onClick={() => setOpen(!isOpen)}>All</p>
+          </NavItem>
+          {categories.slice(0, 5).map((route) => (
+            <NavItem to={`category/${route.id}`} key={route.id}>
+              <p onClick={() => setOpen(!isOpen)}>{route.name}</p>
             </NavItem>
           ))}
         </div>
