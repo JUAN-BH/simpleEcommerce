@@ -13,6 +13,7 @@ export const Home = (): JSX.Element => {
     totalPages,
     goToPage,
     pagesOn,
+    productsFound,
   } = useProducts();
   const globalState = useGlobalState();
   const isLoading = globalState?.state.loading || false;
@@ -66,6 +67,15 @@ export const Home = (): JSX.Element => {
             >
               Next Page
             </button>
+          </section>
+        </>
+      ) : !productsFound ? (
+        <>
+          <FilterProducts filterFunc={filterProducts} />
+          <section className="max-w-screen-lg">
+            <p className="font-semibold text-center">
+              Sorry, no products found
+            </p>
           </section>
         </>
       ) : (

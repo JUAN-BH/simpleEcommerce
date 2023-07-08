@@ -14,6 +14,8 @@ const useProducts = (category = "") => {
   const [productsPerPage, setProductsPerPage] = useState<Product[]>([]);
   //Products to display
   const [products, setProducts] = useState<Product[]>([]);
+  //Products found
+  const [productsFound, setProductsFound] = useState<boolean>(true);
   //Current page
   const [currentPage, setCurrentPage] = useState<number>(1);
   //Total of pages
@@ -80,6 +82,7 @@ const useProducts = (category = "") => {
   function filterProducts(name: string) {
     if (name == "") {
       setProducts(productsPerPage);
+      setPagesOn(true);
     } else {
       const filtered = allProducts.filter((p) =>
         p.title.toLocaleLowerCase().includes(name.toLocaleLowerCase())
@@ -90,6 +93,11 @@ const useProducts = (category = "") => {
       // } else {
       //   setPagesOn(false);
       // }
+      const foundProducts = allProducts.some((p) =>
+        p.title.toLocaleLowerCase().includes(name.toLocaleLowerCase())
+      );
+      setProductsFound(foundProducts);
+      setPagesOn(false);
       setProducts(filtered);
     }
   }
@@ -106,6 +114,7 @@ const useProducts = (category = "") => {
     currentPage,
     totalPages,
     goToPage,
+    productsFound,
   };
 };
 

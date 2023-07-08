@@ -15,6 +15,7 @@ export const Category = () => {
     totalPages,
     goToPage,
     pagesOn,
+    productsFound,
   } = useProducts(idCategory);
   const globalState = useGlobalState();
   const isLoading = globalState?.state.loading || false;
@@ -67,6 +68,15 @@ export const Category = () => {
             >
               Next Page
             </button>
+          </section>
+        </>
+      ) : !productsFound ? (
+        <>
+          <FilterProducts filterFunc={filterProducts} />
+          <section className="max-w-screen-lg">
+            <p className="font-semibold text-center">
+              Sorry, no products found
+            </p>
           </section>
         </>
       ) : (
